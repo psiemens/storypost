@@ -4,15 +4,14 @@
 
 <h1>{{ prompt.message }}</h1>
 
-
 <div class="row">
 
     <div class="seven columns">
-<form action="" method="POST">
-    {% csrf_token %}
-    <textarea name="message" class="u-full-width"></textarea>
-    <input type="submit" class="button-primary" value="Send">
-</form>
+        <form action="./respond" method="POST">
+            {% csrf_token %}
+            <textarea name="message" class="u-full-width"></textarea>
+            <input type="submit" class="button-primary" value="Send">
+        </form>
 
         <div>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae lectus ac lorem aliquam cursus. Etiam maximus felis at felis commodo, non consectetur nibh eleifend. Aliquam turpis diam, congue id dignissim sit amet, scelerisque non purus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>

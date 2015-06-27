@@ -107,13 +107,13 @@ def prompts(request, list_id):
 
     return render(request, "prompt/index.html", context)
 
-def prompt_view(request, id):
+def prompt_view(request, list_id, id):
     context = {
         'prompt': {
             'message': "What is the craziest dream you've ever had?"
         }
     }
-    context['prompt'] = Prompt.objects.get(pk=1)
+    context['prompt'] = Prompt.objects.get(pk=id)
     return render(request, "prompt/prompt.html", context)
 
 def prompt_add(request, list_id):

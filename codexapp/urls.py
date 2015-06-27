@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'lists/add/$', 'codexapp.main.views.list_add', name='list_add'),
     url(r'lists/(\d*)/edit/$', 'codexapp.main.views.list_edit', name='list_edit'),
 
+    url(r'lists/(\d*)/prompt/(\d*)/$', 'codexapp.main.views.prompt_view', name='prompt'),
     url(r'lists/(\d*)/prompts/$', 'codexapp.main.views.prompts', name='prompts'),
     url(r'lists/(\d*)/prompts/add/$', 'codexapp.main.views.prompt_add', name='prompt_add'),
     url(r'lists/(\d*)/prompts/(\d*)/edit/$', 'codexapp.main.views.prompt_edit', name='prompt_edit'),
