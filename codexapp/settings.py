@@ -61,10 +61,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'codex',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'USER': 'codex',
+        'PASSWORD': 'pKEXexaDRKEd3skh',
+        'HOST': '192.241.201.61',
+        'PORT': '3306'
     }
 }
 
