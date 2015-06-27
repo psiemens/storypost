@@ -3,12 +3,7 @@
 {% block content %}
 
 {% for prompt in prompts %}
-<<<<<<< HEAD
     <a href="{% url 'prompt_edit' list_id prompt.id %}">{{ prompt.message }}</a><br/>
-{% endfor %}
-=======
-    <a href="{% url 'prompt_edit' prompt.id %}">{{ prompt.message }}</a><br/>
 {% endfor %}
 
 {% endblock %}
->>>>>>> origin/master
