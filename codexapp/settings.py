@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'codexapp.main',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,8 +59,12 @@ WSGI_APPLICATION = 'codexapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'codex',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 
@@ -76,6 +81,12 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# Templates
+
+TEMPLATE_DIRS = [
+    os.path.join(BASE_DIR, 'templates'),
+    ]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

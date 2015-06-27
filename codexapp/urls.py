@@ -5,6 +5,6 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'codexapp.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
+    url(r'', 'codexapp.main.views.home', name='home'),
     url(r'^admin/', include(admin.site.urls)),
 )
