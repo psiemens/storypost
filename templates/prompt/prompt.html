@@ -1,0 +1,43 @@
+{% extends "home.html" %}
+
+{% block content %}
+
+<h1>{{ prompt.message }}</h1>
+
+
+<div class="row">
+
+    <div class="seven columns">
+<form action="" method="POST">
+    {% csrf_token %}
+    <textarea name="message" class="u-full-width"></textarea>
+    <input type="submit" class="button-primary" value="Send">
+</form>
+
+        <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae lectus ac lorem aliquam cursus. Etiam maximus felis at felis commodo, non consectetur nibh eleifend. Aliquam turpis diam, congue id dignissim sit amet, scelerisque non purus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+            <p>&mdash;Person 1</p>
+        </div>
+        <div>
+            <p>Duis erat ex, dapibus quis egestas et, suscipit et nisl. Aliquam erat volutpat. Quisque nunc diam, vestibulum non rhoncus quis, sodales non nisi. Donec iaculis mollis faucibus.</p>
+            <p>Person 2</p>
+        </div>
+        <div>
+            <p>Suspendisse congue elementum arcu semper auctor. Proin luctus lorem vel sapien pretium posuere. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum vehicula lacus turpis, nec scelerisque dui congue quis. Etiam eu placerat felis. Aenean quam urna, tempus at enim non, sagittis eleifend eros. In fringilla orci vel est consequat posuere. In hac habitasse platea dictumst.</p>
+            <p>Person 3</p>
+        </div>
+    </div>
+
+    <div class="five columns">
+        <div>
+            <p>Created by <a href="/people/1">{{ prompt.user_id }}</a>.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="twelve columns">
+    </div>
+</div>
+
+{% endblock %}
