@@ -109,7 +109,7 @@ def prompts(request, list_id):
 
 def prompt_view(request, list_id, id):
     context = {
-        'prompt': {
+        'prompt': {  # TODO remove this hardcoded prompt
             'message': "What is the craziest dream you've ever had?"
         }
     }
