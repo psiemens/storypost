@@ -1,4 +1,4 @@
-{% extends "home.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
@@ -33,7 +33,7 @@
 
     <div class="five columns">
         <div>
-            <p>Created by <a href="/people/{{ prompt.user.id }}">{{ prompt.user.name }}</a>.</p>
+            <p>Created by <a href="{% url 'user_view' prompt.user.id %}">{{ prompt.user.name }}</a>.</p>
         </div>
     </div>
 </div>

@@ -1,0 +1,19 @@
+<!doctype html>
+<html>{% load staticfiles %}
+<head>
+    <title>codex</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="{% static "base.css" %}">
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <p class="banner"><a href="/" class="undecorated">codex</a></p>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

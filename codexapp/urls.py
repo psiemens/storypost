@@ -9,13 +9,13 @@ urlpatterns = patterns('',
     url(r'lists/add/$', 'codexapp.main.views.list_add', name='list_add'),
     url(r'lists/(\d*)/edit/$', 'codexapp.main.views.list_edit', name='list_edit'),
 
-    url(r'lists/(\d*)/$', 'codexapp.main.views.prompts', name='prompts'),
+    url(r'lists/(\d*)/$', 'codexapp.main.views.prompts', name='list_view'),
     url(r'lists/(\d*)/prompts/(\d*)/$', 'codexapp.main.views.prompt_view', name='prompt'),
     url(r'lists/(\d*)/prompts/add/$', 'codexapp.main.views.prompt_add', name='prompt_add'),
     url(r'lists/(\d*)/prompts/(\d*)/edit/$', 'codexapp.main.views.prompt_edit', name='prompt_edit'),
     url(r'lists/(\d*)/prompts/(\d*)/send/$', 'codexapp.main.views.prompt_send', name='prompt_send'),
 
-    url(r'people/(\d*)$', 'codexapp.main.views.user_view', name='user'),
+    url(r'people/(\d*)$', 'codexapp.main.views.user_view', name='user_view'),
 
     url(r'register/$', 'codexapp.main.views.register', name='register'),
     url(r'login/$', 'codexapp.main.views.login', name='login'),

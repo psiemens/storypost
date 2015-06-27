@@ -1,3 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Lists</h1>
+
 {% for list in lists %}
-    <a href="{% url 'list_edit' list.id %}">{{ list.title }}</a><br/>
+    <a href="{% url 'list_edit' list.id %}">{{ list.title }}</a>
+    by <a href="{% url 'user_view' list.user_id %}">{{ list.user.name }}</a><br/>
 {% endfor %}
+
+{% endblock %}
