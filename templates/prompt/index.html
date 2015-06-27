@@ -1,0 +1,3 @@
+{% for prompt in prompts %}
+    <a href="{% url 'prompt_edit' prompt.id %}">{{ prompt.message }}</a><br/>
+{% endfor %}

@@ -12,10 +12,8 @@ m = MailChimp(API_USERNAME, API_KEY)
 
 #print m.campaigns()[0]['id']
 #print m.campaigns.get('8ebd35bfe6').send()
-for member in m.lists.get('d9fa19092f').members(): #add('peterjsiemens7@gmail.com').delete()
-	print member['email_address']
-
-print m.lists
+#for member in m.lists.get('d9fa19092f').members(): #add('peterjsiemens7@gmail.com').delete()
+#	print member['email_address']
 
 #m.test()
 
@@ -34,3 +32,20 @@ content = {
 #m.createCampaign(options=options, content=content, from_email='peterjsiemens@gmail.com', from_name='Peter Siemens', to_name='John Smith')
 
 #env = Environment(loader=PackageLoader('codex', 'templates'))
+
+contact = {
+    "company": 'test company',
+    "address1": 'test address 1',
+    "city": 'san francisco',
+    "state": 'california',
+    "zip": '97213',
+    "country": 'United States'
+}
+
+campaign_defaults = {
+	"from_name": 'Peter Siemens',
+	"from_email": 'peterjsiemens@gmail.com',
+	"subject": "test list 123",
+	"language": 'english'
+}
+print m.lists.add(name="Test list 123", contact=contact, permission_reminder='test reminder', use_archive_bar=False, campaign_defaults=campaign_defaults)

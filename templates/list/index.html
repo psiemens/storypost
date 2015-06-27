@@ -1,0 +1,3 @@
+{% for list in lists %}
+    <a href="{% url 'list_edit' list.id %}">{{ list.title }}</a><br/>
+{% endfor %}
