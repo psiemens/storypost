@@ -66,22 +66,38 @@ class ListMembers(APIResource):
 
 class Lists(APIResource):
 
-	def get(self, id):
-		def _get():
-			r = self.api.get('lists/' + id)
-			return r.json()
-		self.id = id
-		self._get = _get
-		return self
+    def get(self, id):
+        def _get():
+            r = self.api.get('lists/' + id)
+            return r.json()
+        self.id = id
+        self._get = _get
+        return self
 
-	def _get(self):
-		r = self.api.get('lists/')
-		json = r.json()
-		return json['lists']
+    def _get(self):
+        r = self.api.get('lists/')
+        json = r.json()
+        return json['lists']
 
-	@property
-	def members(self):
-		return ListMembers(self.api, self.id)
+    def _list(self):
+        return self._get()
+
+    def add(self, name, contact, permission_reminder, use_archive_bar, campaign_defaults, email_type_option=False):
+        payload = {
+            'name': name,
+            'contact': contact,
+            'permission_reminder': permission_reminder,
+            'use_archive_bar': use_archive_bar,
+            'campaign_defaults': campaign_defaults,
+            'email_type_option': email_type_option
+        }
+        r = self.api.post('lists', payload=payload)
+        return r.json()
+
+
+    @property
+    def members(self):
+        return ListMembers(self.api, self.id)
 
 
 class Campaign(APIResource):
