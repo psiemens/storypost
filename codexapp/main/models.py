@@ -1,8 +1,18 @@
-from django.db.models import Model, IntegerField, CharField, TextField
+from django.conf import settings
+from django.db.models import Model, IntegerField, CharField, TextField, ForeignKey, OneToOneField
 from codexapp.remote import mailchimp
+
+
+class User(Model):
+
+    auth_user = OneToOneField(settings.AUTH_USER_MODEL)
+
+    name = CharField(max_length=255)
+
 
 class List(Model):
 
+    user = ForeignKey(User)
     mc_list_id = CharField(max_length=255) # Mapped to MailChmip List instance
     title = CharField(max_length=255)
     description = TextField()
@@ -10,6 +20,9 @@ class List(Model):
     @property
     def members(self):
         return mailchimp.lists.get(self.mc_list_id).members()
+
+    def __str__(self):
+        return self.title
 
     def save(self, *args, **kwargs):
 
@@ -40,10 +53,31 @@ class List(Model):
 
 class Prompt(Model):
 
+    user = ForeignKey(User)
     mc_campaign_id = CharField(max_length=255) # Mapped to MailChmip Campaign instance
     message = TextField()
     description = TextField()
+    list = ForeignKey(List)
 
+    def save(self, *args, **kwargs):
 
+        if not self.pk:
 
+            options = {
+                'list_id': self.list.mc_list_id,
+                'subject': self.message,
+                'from_email': 'peterjsiemens@gmail.com',
+                'from_name': 'Peter Siemens',
+                'to_name': 'Test people'
+            }
 
+            content = {
+                'html': 'This is a test email',
+                'text': 'This is a test email'
+            }
+
+            campaign = mailchimp.campaigns.create(options=options, content=content, from_email='peterjsiemens@gmail.com', from_name='Peter Siemens', to_name='John Smith')
+
+            self.mc_campaign_id = campaign['id']
+
+        super(Prompt, self).save(*args, **kwargs)

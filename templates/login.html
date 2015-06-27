@@ -1,0 +1,23 @@
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="row">
+        {{ form.username.errors }}
+        <label>{{ form.username.label }}:</label>
+        {{ form.username }}
+    </div>
+    <div class="row">
+        {{ form.password.errors }}
+        <label>Password:</label>
+        {{ form.password }}
+    </div>
+    <input type="hidden" name="next" value="{{ next }}" />
+    {% url 'admin_password_reset' as password_reset_url %}
+    {% if password_reset_url %}
+    <div class="password-reset-link">
+        <a href="{{ password_reset_url }}">Forgotten your password or username?</a>
+    </div>
+    {% endif %}
+    <div class="submit-row">
+        <input type="submit" value="Log in" />
+    </div>
+</form>

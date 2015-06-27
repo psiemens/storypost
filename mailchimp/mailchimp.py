@@ -119,8 +119,8 @@ class Campaign(APIResource):
 			'cid': self.id
 		}
 		r = self.api.get('campaigns/send/', payload=payload, auth=False, version='2.0')
-		return r.json()
-
+        data = r.json()
+		return 'complete' in data and data['complete']:
 
 class Campaigns(APIResource):
 
@@ -137,7 +137,7 @@ class Campaigns(APIResource):
 
 	def create(self, type='regular', options=None, content=None, from_email=None, from_name=None, to_name=None):
 		payload = {
-			'apikey': self.api_key,
+			'apikey': self.api.api_key,
 			'type': type,
 			'options': options,
 			'content': content,

@@ -48,4 +48,5 @@ campaign_defaults = {
 	"subject": "test list 123",
 	"language": 'english'
 }
+
 print m.lists.add(name="Test list 123", contact=contact, permission_reminder='test reminder', use_archive_bar=False, campaign_defaults=campaign_defaults)
