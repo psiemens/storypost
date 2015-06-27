@@ -94,5 +94,5 @@ TEMPLATE_DIRS = [
 BASE_STATIC_URL = 'http://localhost:8888/'
 
 STATIC_URL = BASE_STATIC_URL + 'static/' # What do static URLs start with?
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') # Where do static files live
 
