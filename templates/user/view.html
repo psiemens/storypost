@@ -1,0 +1,11 @@
+{% extends "home.html" %}
+
+{% block content %}
+
+<h1>{{ user.name }}</h1>
+
+{% for list in lists %}
+<p>{{ list.title }}</p>
+{% endfor %}
+
+{% endblock %}

@@ -166,3 +166,11 @@ def prompt_send(request, list_id, id):
          raise Exception('Campaign wasn\'t sent')
 
     return render(request, "prompt/send.html")
+
+
+def user_view(request, id):
+    context = {
+        'user': User.objects.get(pk=id),
+        'lists': List.objects.filter(user__id=id)
+    }
+    return render(request, "user/view.html", context)

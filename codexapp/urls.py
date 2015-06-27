@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     url(r'lists/(\d*)/prompts/(\d*)/edit/$', 'codexapp.main.views.prompt_edit', name='prompt_edit'),
     url(r'lists/(\d*)/prompts/(\d*)/send/$', 'codexapp.main.views.prompt_send', name='prompt_send'),
 
+    url(r'people/(\d*)$', 'codexapp.main.views.user_view', name='user'),
+
     url(r'register/$', 'codexapp.main.views.register', name='register'),
     url(r'login/$', 'codexapp.main.views.login', name='login'),
 
