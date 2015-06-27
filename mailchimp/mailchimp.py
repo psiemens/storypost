@@ -135,6 +135,19 @@ class Campaigns(APIResource):
 	def get(self, id):
 		return Campaign(self.api, id=id)
 
+	def create(self, type='regular', options=None, content=None, from_email=None, from_name=None, to_name=None):
+		payload = {
+			'apikey': self.api_key,
+			'type': type,
+			'options': options,
+			'content': content,
+			'from_email': from_email,
+			'from_name': from_name,
+			'to_name': to_name,
+		}
+		r = self.api.post('campaigns/create/', payload=payload, auth=False, version='2.0')
+		return r.json()
+
 
 class MailChimp(object):
 
@@ -191,16 +204,3 @@ class MailChimp(object):
 	@property
 	def campaigns(self):
 		return Campaigns(self)
-
-	def createCampaign(self, type='regular', options=None, content=None, from_email=None, from_name=None, to_name=None):
-		payload = {
-			'apikey': self.api_key,
-			'type': type,
-			'options': options,
-			'content': content,
-			'from_email': from_email,
-			'from_name': from_name,
-			'to_name': to_name,
-		}
-		r = self.post('campaigns/create/', payload=payload, auth=False, version='2.0')
-		return r.json()
