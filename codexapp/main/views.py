@@ -107,6 +107,14 @@ def prompts(request, list_id):
 
     return render(request, "prompt/index.html", context)
 
+def prompt_view(request, id):
+    context = {
+        'prompt': {
+            'message': "What is the craziest dream you've ever had?"
+        }
+    }
+    context['prompt'] = Prompt.objects.get(pk=1)
+    return render(request, "prompt/prompt.html", context)
 
 def prompt_add(request, list_id):
 
@@ -145,6 +153,7 @@ def prompt_edit(request, list_id, id):
     }
 
     return render(request, "prompt/edit.html", context)
+<<<<<<< HEAD
 
 def prompt_send(request, list_id, id):
 
@@ -159,3 +168,5 @@ def prompt_send(request, list_id, id):
 
     return render(request, "prompt/send.html")
 
+=======
+>>>>>>> origin/master
