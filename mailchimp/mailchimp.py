@@ -102,25 +102,25 @@ class Lists(APIResource):
 
 class Campaign(APIResource):
 
-	def __init__(self, api, id=None, data=None):
-		super(Campaign, self).__init__(api)
-		self.id = id
+    def __init__(self, api, id=None, data=None):
+        super(Campaign, self).__init__(api)
+        self.id = id
 
-	def _get(self):
-		r = self.api.get('campaigns/' + self.id)
-		return r.json()
+    def _get(self):
+        r = self.api.get('campaigns/' + self.id)
+        return r.json()
 
-	def _list(self):
-		return self._get()
+    def _list(self):
+        return self._get()
 
-	def send(self):
-		payload = {
-			'apikey': self.api.api_key,
-			'cid': self.id
-		}
-		r = self.api.get('campaigns/send/', payload=payload, auth=False, version='2.0')
+    def send(self):
+        payload = {
+            'apikey': self.api.api_key,
+            'cid': self.id
+        }
+        r = self.api.get('campaigns/send/', payload=payload, auth=False, version='2.0')
         data = r.json()
-		return 'complete' in data and data['complete']:
+        return 'complete' in data and data['complete']
 
 class Campaigns(APIResource):
 

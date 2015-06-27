@@ -153,7 +153,6 @@ def prompt_edit(request, list_id, id):
     }
 
     return render(request, "prompt/edit.html", context)
-<<<<<<< HEAD
 
 def prompt_send(request, list_id, id):
 
@@ -164,9 +163,6 @@ def prompt_send(request, list_id, id):
     sent = mailchimp.campaigns.get(prompt.mc_campaign_id).send()
 
     if not sent:
-        return False
+         raise Exception('Campaign wasn\'t sent')
 
     return render(request, "prompt/send.html")
-
-=======
->>>>>>> origin/master
