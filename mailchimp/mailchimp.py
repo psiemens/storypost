@@ -73,7 +73,7 @@ class ListMembers(APIResource):
             },
             "delete_member": True,
         }
-        r = self.api.post('lists/unsubscribe', payload=payload, auth=False, version=2.0)
+        r = self.api.post('lists/unsubscribe', payload=payload, auth=False, version='2.0')
         data = r.json()
         if data['status'] == 400:
             raise Exception(data['detail'])
@@ -173,7 +173,10 @@ class Campaigns(APIResource):
 class Conversations(APIResource):
 
     def _get(self):
-        r = self.api.get('conversations/')
+        payload = {
+            'count': 100
+        }
+        r = self.api.get('conversations/', payload=payload)
         json = r.json()
         return json['conversations']
 
