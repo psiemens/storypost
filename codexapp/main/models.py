@@ -91,7 +91,7 @@ class Prompt(Model):
     mc_campaign_id = CharField(max_length=255) # Mapped to MailChmip Campaign instance
     title = CharField(max_length=255)
     message = TextField()
-    description = TextField()
+    description = TextField(null=True)
     list = ForeignKey(List)
 
     @property
