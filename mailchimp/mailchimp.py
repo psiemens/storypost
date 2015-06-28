@@ -122,6 +122,9 @@ class Campaign(APIResource):
         data = r.json()
         return 'complete' in data and data['complete']
 
+    def conversations(self):
+        return [c for c in self.api.conversations() if c['campaign_id'] == self.id]
+
 class Campaigns(APIResource):
 
 	def _get(self):
@@ -148,59 +151,72 @@ class Campaigns(APIResource):
 		r = self.api.post('campaigns/create/', payload=payload, auth=False, version='2.0')
 		return r.json()
 
+class Conversations(APIResource):
+
+    def _get(self):
+        r = self.api.get('conversations/')
+        json = r.json()
+        return json['conversations']
+
+    def _list(self):
+		return self._get()
 
 class MailChimp(object):
 
-	API_DEFAULT_VERSION = '3.0'
-	API_BASE = 'https://%s.api.mailchimp.com/%s/'
+    API_DEFAULT_VERSION = '3.0'
+    API_BASE = 'https://%s.api.mailchimp.com/%s/'
 
-	def __init__(self, api_username, api_key, version=API_DEFAULT_VERSION):
-		self.api_username = api_username
-		self.api_key = api_key
-		self.version = version
-		self.datacenter = self.get_datacenter(api_key)
+    def __init__(self, api_username, api_key, version=API_DEFAULT_VERSION):
+        self.api_username = api_username
+        self.api_key = api_key
+        self.version = version
+        self.datacenter = self.get_datacenter(api_key)
 
-	def get_datacenter(self, api_key):
-		pieces = api_key.split('-')
-		try:
-			return pieces[1]
-		except:
-			print 'INVALID API KEY'
+    def get_datacenter(self, api_key):
+        pieces = api_key.split('-')
+        try:
+            return pieces[1]
+        except:
+            print 'INVALID API KEY'
 
-	def get_base_url(self, version=None):
-		if version is None: 
-			version = self.version
-		return self.API_BASE % (self.datacenter, version)
+    def get_base_url(self, version=None):
+        if version is None:
+            version = self.version
+        return self.API_BASE % (self.datacenter, version)
 
-	def get_auth(self):
-		return (self.api_username, self.api_key)
+    def get_auth(self):
+        return (self.api_username, self.api_key)
 
-	def get(self, endpoint='', payload=None, auth=True, version=None):
-		if auth:
-			return requests.get(self.get_base_url(version) + endpoint, params=payload, auth=self.get_auth())
-		else:
-			return requests.get(self.get_base_url(version) + endpoint, params=payload)
+    def get(self, endpoint='', payload=None, auth=True, version=None):
+        if auth:
+            return requests.get(self.get_base_url(version) + endpoint, params=payload, auth=self.get_auth())
+        else:
+            return requests.get(self.get_base_url(version) + endpoint, params=payload)
 
-	def post(self, endpoint='', payload=None, auth=True, version=None):
-		if auth:
-			return requests.post(self.get_base_url(version) + endpoint, data=json.dumps(payload), auth=self.get_auth())
-		else:
-			return requests.post(self.get_base_url(version) + endpoint, data=json.dumps(payload))
+    def post(self, endpoint='', payload=None, auth=True, version=None):
+        if auth:
+            return requests.post(self.get_base_url(version) + endpoint, data=json.dumps(payload), auth=self.get_auth())
+        else:
+            return requests.post(self.get_base_url(version) + endpoint, data=json.dumps(payload))
 
-	def delete(self, endpoint='', auth=True, version=None):
-		if auth:
-			return requests.delete(self.get_base_url(version) + endpoint, auth=self.get_auth())
-		else:
-			return requests.delete(self.get_base_url(version) + endpoint)
+    def delete(self, endpoint='', auth=True, version=None):
+        if auth:
+            return requests.delete(self.get_base_url(version) + endpoint, auth=self.get_auth())
+        else:
+            return requests.delete(self.get_base_url(version) + endpoint)
 
-	def test(self):
-		r = self.get('')
-		print r.json()['contact']['city']
+    def test(self):
+        r = self.get('')
+        print r.json()['contact']['city']
 
-	@property
-	def lists(self):
-		return Lists(self)
+    @property
+    def lists(self):
+        return Lists(self)
 
-	@property
-	def campaigns(self):
-		return Campaigns(self)
+    @property
+    def campaigns(self):
+        return Campaigns(self)
+
+    @property
+    def conversations(self):
+        return Conversations(self)
