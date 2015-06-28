@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
 {% block left %}
-<h1>Register</h1>
+<h1>Edit Profile</h1>
 <form method="post" action="">
 {% csrf_token %}
 {{ form }}
-<br/>
-<input type="submit" class="button-primary" />
+<input type="submit" value="Save" class="button-primary" />
 </form>
 {% endblock %}

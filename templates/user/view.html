@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
-{% block left %}
-<div class="topbar">
+{% block banner %}
+<div class="row">
+<div class="seven columns topbar">
 <h1>{{ person.name }}</h1>
 </div>
-<p><em>Joined <span class="human-timestamp">{{ person.date_joined|date:"Y-n-j" }}</span></em></p>
-{% endblock %}
-
-{% block right %}
-<div class="control topbar">
+<div class="five columns control topbar">
     {% if user.id == person.auth_user.id %}
+    <a class="button" href="{% url 'profile_edit' %}">Edit Profile</a>
     <a class="button" href="{% url 'list_add' %}">Create List</a>
     {% endif %}
 </div>
+</div>
+<p><em>Joined <span class="human-timestamp">{{ person.date_joined|date:"Y-n-j" }}</span></em></p>
 {% endblock %}
 
 {% block full %}

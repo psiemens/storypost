@@ -20,13 +20,13 @@ urlpatterns = patterns('',
 
     url(r'prompts/add/$', 'codexapp.main.views.prompt_add_quick', name='prompt_add_quick'),
 
-    url(r'people/(\d*)$', 'codexapp.main.views.user_view', name='user_view'),
+    url(r'users/(?P<username>[-\w]+)$', 'codexapp.main.views.user_view', name='user_view'),
 
     url(r'register/$', 'codexapp.main.views.register', name='register'),
     url(r'login/$', 'codexapp.main.views.login', name='login'),
     url(r'logout/$', 'codexapp.main.views.logout', name='logout'),
 
-    url(r'profile/$', 'codexapp.main.views.profile', name='profile'),
+    url(r'profile/edit/$', 'codexapp.main.views.profile_edit', name='profile_edit'),
 
     url(r'^$', 'codexapp.main.views.home', name='home'),
 

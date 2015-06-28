@@ -1,12 +1,30 @@
 header {
     padding: 20px 0;
+    height: 50px;
     margin-bottom: 40px;
     border-bottom: 1px solid rgb(215, 215, 215);
 }
 
-.banner {
-    color: green;
-    font-style: italic;
+
+a.logo {
+    display: inline-block;
+    width: 200px;
+    line-height: 50px;
+}
+
+a.logo img {
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+a.logo:hover {
+    opacity: 0.5;
+}
+
+header .columns {
+    height: 50px;
+    line-height: 40px;
 }
 
 .person {
@@ -31,6 +49,8 @@ header {
 }
 
 .main-nav ul {
+    display: inline-block;
+    vertical-align: middle;
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -43,6 +63,11 @@ header {
 
 .main-nav ul li:last-child {
     margin-right: 0;
+}
+
+
+.main-nav ul li .button {
+    margin: 0;
 }
 
 a.creator {
@@ -65,6 +90,10 @@ a.creator:hover {
 textarea.message {
     min-height: 175px;
     resize: none;
+}
+
+span.login-message {
+    margin-left: 10px;
 }
 
 .more-prompts {
@@ -154,4 +183,10 @@ div.topbar h1 {
     border: 1px solid rgb(219, 219, 219);
     border-radius: 5px;
     padding: 20px;
+}
+
+button:disabled, button:disabled:hover {
+    cursor: default;
+    background-color: rgb(200, 200, 200);
+    border-color: rgb(200, 200, 200);
 }

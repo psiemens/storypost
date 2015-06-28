@@ -22,7 +22,7 @@
 
 <div class="prompt-header">
     <h6><a href="{% url 'list_view' prompt.list.id %}">{{ prompt.list.title }}</a> &nbsp;&middot;&nbsp; {{ prompt.title }}</h6>
-    <h3>{{ prompt.message }}</h3>
+    <h3>{{ prompt.message|linebreaks }}</h3>
     {% if prompt.description %}
     <h6 class="prompt-description">{{ prompt.description }}</h6>
     {% endif %}
@@ -33,7 +33,11 @@
 <form action="./respond" method="POST">
     {% csrf_token %}
     <textarea name="message" class="message u-full-width"></textarea>
-    <input type="submit" class="button-primary" value="Send">
+    {% if user.is_authenticated %}
+    <button class="button-primary">Send</button>
+    {% else %}
+    <button class="button-primary" disabled>Send</button><span class="login-message"><em>Please log in to post a reply.</em></span>
+    {% endif %}
 </form>
 
 <ul class="reply-tabs">
@@ -53,7 +57,7 @@
 
 {% block right %}
 <div>
-    <a class="creator" href="{% url 'user_view' prompt.user.id %}">{{ prompt.user.name }}</a>
+    <a class="creator" href="{% url 'user_view' prompt.user.username %}">{{ prompt.user.name }}</a>
     {% if next_prompt %}
         <p class="more-prompts">Next: <a href="{% url 'prompt_view' next_prompt.list.id next_prompt.id %}"><em>{{ next_prompt.title }}</em></a></p>
     {% endif %}
