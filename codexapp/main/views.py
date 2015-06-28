@@ -13,7 +13,7 @@ def home(request):
         'featured_prompt': Prompt.objects.get(pk=6),
         'featured_items': itertools.chain.from_iterable(zip(
             Reply.objects.order_by('-points')[:3],
-            Prompt.objects.filter(pk__gte=12)
+            Prompt.objects.filter(pk__gte=12).order_by('-id')
         ))
     }
 
