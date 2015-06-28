@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, render, redirect
 
 from codexapp.main.models import User, List, Prompt
-from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm
+from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm, PromptQuickForm
 
 def home(request):
 
@@ -19,6 +19,7 @@ def register(request):
         form = RegistrationForm()
 
     context = {
+        'title': "Register",
         'form': form,
     }
 
@@ -117,11 +118,34 @@ def list_view(request, list_id):
     context = {
         'list_id': list_id,
         'list': lst,
-        'user': User.objects.get(pk=lst.user_id),
+        'codex_user': User.objects.get(pk=lst.user_id),
         'prompts': Prompt.objects.filter(list_id=list_id)
     }
 
     return render(request, "list/view.html", context)
+
+
+def list_subscribe(request, list_id):
+
+    user = User.objects.get(auth_user=request.user.id)
+
+    list = List.objects.get(pk=list_id)
+
+    list.add_member(user)
+
+    return redirect(list_view, list_id)
+
+
+def list_unsubscribe(request, list_id):
+
+    user = User.objects.get(auth_user=request.user.id)
+
+    list = List.objects.get(pk=list_id)
+
+    list.remove_member(user)
+
+    return redirect(list_view, list_id)
+
 
 def prompt_view(request, list_id, id):
 
@@ -140,6 +164,28 @@ def prompt_view(request, list_id, id):
     }
 
     return render(request, "prompt/prompt.html", context)
+
+
+def prompt_add_quick(request):
+
+    user = User.objects.get(auth_user=request.user.id)
+
+    if request.method == 'POST':
+        form = PromptQuickForm(request.POST)
+        if form.is_valid():
+            prompt = form.save(commit=False)
+            prompt.user = user
+            prompt.save()
+            return redirect(prompt_edit, prompt.list_id, prompt.id)
+    else:
+        form = PromptQuickForm()
+
+    context = {
+        'title': "Create a prompt",
+        'form': form,
+    }
+
+    return render(request, "prompt/quick_add.html", context)
 
 def prompt_add(request, list_id):
 

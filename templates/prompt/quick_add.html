@@ -1,0 +1,17 @@
+{% extends "form.html" %}
+
+{% block form %}
+<form method="post" action="">
+    {% csrf_token %}
+    <label>{{ form.title.label }}</label>
+    {{ form.title }}
+    <label>{{ form.message.label }}</label>
+    {{ form.message }}
+    <label>{{ form.description.label }}</label>
+    {{ form.description }}
+    <label>{{ form.list.label }}</label>
+    {{ form.list }}
+    <br/><br/>
+    <input type="submit" />
+</form>
+{% endblock %}

@@ -41,13 +41,18 @@ class RegistrationForm(ModelForm):
 
     class Meta:
         model = User
-        exclude = ('auth_user',)
+        exclude = ('auth_user', 'mc_api_key')
 
 
 class ListForm(ModelForm):
     class Meta:
         model = List
         exclude = ('mc_list_id', 'user')
+
+class PromptQuickForm(ModelForm):
+    class Meta:
+        model = Prompt
+        exclude = ('mc_campaign_id', 'user')
 
 class PromptForm(ModelForm):
     class Meta:

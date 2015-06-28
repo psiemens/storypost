@@ -24,6 +24,7 @@ class APIResource(object):
   		return self._list()[key]
 
 class ListMember(APIResource):
+
 	def __init__(self, api, list_id=None, id=None, data=None):
 		super(ListMember, self).__init__(api)
 		self.list_id = list_id
@@ -40,29 +41,47 @@ class ListMember(APIResource):
 
 class ListMembers(APIResource):
 
-	def __init__(self, api, id=None):
-		super(ListMembers, self).__init__(api)
-		self.id = id
+    def __init__(self, api, id=None):
+        super(ListMembers, self).__init__(api)
+        self.id = id
 
-	def _get(self):
-		return self._list()
+    def _get(self):
+        return self._list()
 
-	def _list(self):
-		r = self.api.get('lists/' + self.id + '/members/')
-		response = r.json()
-		return response['members']
+    def _list(self):
+        r = self.api.get('lists/' + self.id + '/members/')
+        response = r.json()
+        return response['members']
 
-	def add(self, email):
-		payload = {
-			'email_address': email,
-			'status': 'subscribed'
-		}
-		r = self.api.post('lists/' + self.id + '/members/', payload=payload)
-		data = r.json()
-		return ListMember(self.api, list_id=self.id, id=data['id'], data=data)
+    def add(self, email):
+        payload = {
+            'email_address': email,
+            'status': 'subscribed'
+        }
+        r = self.api.post('lists/' + self.id + '/members/', payload=payload)
+        data = r.json()
+        if data['status'] == 400:
+            raise Exception(data['detail'])
+        return ListMember(self.api, list_id=self.id, id=data['id'], data=data)
 
-	def get(self, id):
-		return ListMember(self.api, list_id=self.id, id=id)
+    def remove(self, email):
+        payload = {
+            'apikey': self.api.api_key,
+            'id': self.id,
+            'email': {
+                'email': email,
+            },
+            "delete_member": True,
+        }
+        r = self.api.post('lists/unsubscribe', payload=payload, auth=False, version=2.0)
+        data = r.json()
+        if data['status'] == 400:
+            raise Exception(data['detail'])
+        else:
+            return True
+
+    def get(self, id):
+        return ListMember(self.api, list_id=self.id, id=id)
 
 class Lists(APIResource):
 

@@ -13,8 +13,14 @@
             <div class="main-nav eight columns">
                 <ul>
                     <li><a href="/" class="undecorated">Explore</a></li>
-                    <li><a href="{% url 'lists' %}" class="undecorated">Your Lists</a></li>
+                    {% if user.is_authenticated %}
                     <li><a href="{% url 'user_view' 1 %}" class="undecorated">Profile</a></li>
+                    <li><a href="{% url 'logout' %}" class="undecorated">Logout</a></li>
+                    <li><a href="{% url 'prompt_add_quick' %}" class="button button-primary undecorated">Create Prompt</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}" class="undecorated">Login</a></li>
+                    <li><a href="{% url 'register' %}" class="button undecorated">Register</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </header>

@@ -1,6 +1,6 @@
 header {
     padding: 20px 0;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     border-bottom: 1px solid rgb(215, 215, 215);
 }
 
@@ -64,8 +64,6 @@ a.creator:hover {
 
 textarea.message {
     min-height: 175px;
-    font-size: 1.5rem;
-    padding: 15px;
     resize: none;
 }
 
@@ -98,4 +96,25 @@ ul.replies li p.meta {
     margin: 0;
     color: grey;
     font-size: 13px;
+}
+
+select {
+    font-size: 1.5rem;
+}
+
+input, textarea {
+    font-size: 1.5rem;
+    padding: 10px;
+}
+
+form input[type="text"], form input[type="email"], form input[type="password"], form textarea {
+    width: 100%;
+}
+
+form textarea {
+    min-height: 160px;
+}
+
+form select {
+    min-width: 300px;
 }

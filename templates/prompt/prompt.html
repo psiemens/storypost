@@ -18,14 +18,13 @@
 {% block content %}
 
 <div class="prompt-header">
-    <h6>Prompt</h6>
+    <h6>{{ prompt.list.title }}</h6>
     <h3>{{ prompt.message }}</h3>
     {% if prompt.description %}
     <h6 class="prompt-description">{{ prompt.description }}</h6>
     {% endif %}
 </div>
 <div class="row">
-
     <div class="eight columns">
         <form action="./respond" method="POST">
             {% csrf_token %}

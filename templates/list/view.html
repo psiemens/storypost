@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>{{ list.title }} <span class="half-height">by <a href="{% url 'user_view' user.id %}">{{ user.name }}</a></span></h1>
+<h1>{{ list.title }} <span class="half-height">by <a href="{% url 'user_view' user.id %}">{{ codex_user.name }}</a></span></h1>
 
 <button>Follow</button>
 
