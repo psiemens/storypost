@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block banner %}
 <div class="prompt-header">
     <h6><a href="{% url 'list_view' prompt.list.id %}">{{ prompt.list.title }}</a> &nbsp;&middot;&nbsp; {{ prompt.title }}</h6>
@@ -24,16 +24,9 @@
 <ul class="reply-tabs">
    <li>Recent replies</li>
 </ul>
-<ul class="replies">
-{% for reply in prompt.replies %}
-    <li>
-        <div class="content">
-            <p>{{ reply.content }}</p>
-        </div>
-        <p class="meta">{{ reply.email }} - <span class="human-timestamp">{{ reply.timestamp }}</span></p>
-    </li>
-{% endfor %}
-</ul>
+
+<div id="prompt" data-id="{{ prompt.id }}"></div>
+
 {% endblock %}
 
 {% block right %}
@@ -56,4 +49,9 @@
     <a href="{% url 'prompt_delete' prompt.list.id prompt.id %}" class="button">Delete</a>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://fb.me/react-0.13.3.min.js"></script>
+<script src="{% static "prompt.js" %}"></script>
 {% endblock %}

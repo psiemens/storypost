@@ -14,7 +14,7 @@
 {% for reply in featured_replies %}
     <div class="block four columns">
         <p>{{ reply.content }}</p>
-        <p><em>In response to <a href="{{ reply.prompt.get_absolute_url }}">{{ reply.prompt.title }}</a></em></p>
+        <span><em>In response to <a href="{{ reply.prompt.get_absolute_url }}">{{ reply.prompt.title }}</a></em></span>
     </div>
 {% endfor %}
 </div>

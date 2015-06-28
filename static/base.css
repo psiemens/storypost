@@ -130,10 +130,11 @@ ul.replies li {
     margin: 20px 0;
 }
 
-ul.replies li p.meta {
+ul.replies li .meta {
     margin: 0;
     color: grey;
     font-size: 13px;
+    width: 100%;
 }
 
 select {

@@ -1,8 +1,8 @@
 !(function(self) {
-    self.timeparse = function(s) {
-        if (s.startsWith("2015"))  // #TODO wtf
-            return moment(s, "YYYY-MM-DD")
-        else return moment(s.replace(".", ""), "MMM D, YYYY, h:mm a")
+    self.timeparse = function(s, format) {
+        if(typeof format == 'undefined')
+            format = "MMM D, YYYY, h:mm a";
+        else return moment(s.replace(".", ""), format)
     }
     self.relativise_timestamps = function() {
         $(".human-timestamp").each(function(idx, el) {
