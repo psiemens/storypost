@@ -16,10 +16,17 @@ def serialize_reply(reply):
 
 def prompt(request, id):
 
+    sort = request.GET.get('sort', 'recent')
+
     prompt = Prompt.objects.get(pk=id)
     prompt.sync_replies()
 
-    replies = [serialize_reply(r) for r in prompt.replies]
+    if sort == 'recent':
+        replies = prompt.replies(order='-timestamp')
+    elif sort =='top':
+        replies = prompt.replies(order='-points')
+
+    replies = [serialize_reply(r) for r in replies]
 
     return JsonResponse({ 'replies': replies })
 

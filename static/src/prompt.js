@@ -1,5 +1,4 @@
-var BASE_URL = 'http://localhost:8000/';
-
+var BASE_URL = '/';
 
 var PromptReply = React.createClass({
     getInitialState: function(){
@@ -48,11 +47,12 @@ var PromptReply = React.createClass({
 var Prompt = React.createClass({
     getInitialState: function(){
         return {
+            tab: 'recent',
             replies: [],
         }
     },
     syncReplies: function(){
-        $.get(BASE_URL + 'api/prompt/' + this.props.id + '/', function(data){
+        $.get(BASE_URL + 'api/prompt/' + this.props.id + '/?sort=' + this.state.tab, function(data){
             this.setState({
                 replies: data.replies
             });
@@ -62,16 +62,23 @@ var Prompt = React.createClass({
         this.syncReplies();
         this.interval = setInterval(this.syncReplies, 10000);
     },
-    renderReplies: function(){
-
+    changeTab: function(tab, event){
+        event.preventDefault();
+        this.setState({ tab: tab }, this.syncReplies);
     },
     render: function(){
 
         var replies = this.state.replies.map(function(reply, i){
-            return (<PromptReply key={i} id={reply.id} content={reply.content} points={reply.points} email={reply.email} timestamp={reply.timestamp} />);
+            return (<PromptReply key={reply.id} id={reply.id} content={reply.content} points={reply.points} email={reply.email} timestamp={reply.timestamp} />);
         }.bind(this));
         return (
-            <ul className="replies">{replies}</ul>
+            <div>
+                <ul className="reply-tabs">
+                    <li><a href="#" className={ this.state.tab == 'recent' ? 'active' : '' } onClick={this.changeTab.bind(this, 'recent')}>Recent replies</a></li>
+                    <li><a href="#" className={ this.state.tab == 'top' ? 'active' : '' } onClick={this.changeTab.bind(this, 'top')}>Top replies</a></li>
+                </ul>
+                <ul className="replies">{replies}</ul>
+            </div>
         );
     }
 });

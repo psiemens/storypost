@@ -110,9 +110,8 @@ class Prompt(Model):
     description = TextField(null=True)
     list = ForeignKey(List)
 
-    @property
-    def replies(self):
-        return Reply.objects.filter(prompt=self).order_by('-timestamp')
+    def replies(self, order='-timestamp'):
+        return Reply.objects.filter(prompt=self).order_by(order)
 
     def send(self):
         return mailchimp(self.user.mc_api_key).campaigns.get(self.mc_campaign_id).send()
