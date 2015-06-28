@@ -65,10 +65,37 @@ a.creator:hover {
 textarea.message {
     min-height: 175px;
     font-size: 1.5rem;
-    padding: 20px 15px;
+    padding: 15px;
     resize: none;
 }
 
 .more-prompts {
     margin-bottom: 15px;
+}
+
+ul.reply-tabs {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.replies {
+    border-top: 1px solid rgb(215, 215, 215);
+    list-style-top: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.replies li {
+    display: block;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+ul.replies li p.meta {
+    margin: 0;
+    color: grey;
+    font-size: 13px;
 }

@@ -18,15 +18,19 @@
             <input type="submit" class="button-primary" value="Send">
         </form>
 
-
+        <ul class="reply-tabs">
+           <li><a href="#">Recent</a></li>
+        </ul>
+        <ul class="replies">
         {% for reply in prompt.replies %}
-            <div>
-                <p>{{ reply.content }}</p>
-                <p>{{ reply.email }}</p>
-                <p>{{ reply.timestamp }}</p>
-            </div>
+            <li>
+                <div class="content">
+                    <p>{{ reply.content }}</p>
+                </div>
+                <p class="meta">{{ reply.email }} - {{ reply.timestamp }}</p>
+            </li>
         {% endfor %}
-
+        </ul>
     </div>
 
     <div class="four columns">
