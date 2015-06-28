@@ -11,3 +11,7 @@
     text-decoration: none;
     color: inherit;
 }
+
+.half-height {
+    font-size: 50%;
+}

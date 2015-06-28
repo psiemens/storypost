@@ -100,9 +100,12 @@ def list_edit(request, id):
 
 def list_view(request, list_id):
 
+    lst = List.objects.get(pk=list_id)
+
     context = {
         'list_id': list_id,
-        'name': List.objects.get(pk=list_id),
+        'list': lst,
+        'user': User.objects.get(pk=lst.user_id),
         'prompts': Prompt.objects.filter(list_id=list_id)
     }
 
@@ -113,6 +116,7 @@ def prompt_view(request, list_id, id):
     context = {
         'prompt': p,
         'other_user_prompts': Prompt.objects.filter(user__id=p.user_id)
+                                            .order_by('-id')[:4]
     }
     return render(request, "prompt/prompt.html", context)
 
