@@ -1,3 +1,5 @@
+import itertools
+
 from django.shortcuts import render_to_response, render, redirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
@@ -9,9 +11,10 @@ from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm
 def home(request):
     context = {
         'featured_prompt': Prompt.objects.get(pk=6),
-        'featured_replies': [
-            Reply.objects.get(pk=5)
-        ]
+        'featured_items': itertools.chain.from_iterable(zip(
+            Reply.objects.order_by('-points')[:3],
+            Prompt.objects.filter(pk__gte=12)
+        ))
     }
 
     return render(request, "home.html", context)

@@ -10,13 +10,22 @@
     <a href="{{ featured_prompt.get_absolute_url }}" class="button button-primary">Reply</a>
 </div>
 
-<div class="block-listing row">
-{% for reply in featured_replies %}
-    <div class="block four columns">
-        <p>{{ reply.content }}</p>
-        <span><em>In response to <a href="{{ reply.prompt.get_absolute_url }}">{{ reply.prompt.title }}</a></em></span>
+{% for item in featured_items %}
+    {% if forloop.counter|add:"2"|divisibleby:"3" or forloop.counter == 1 %}
+    <div class="block-listing row">
+    {% endif %}
+        <div class="block four columns">
+            {% if item.content %}
+                <p>{{ item.content }}</p>
+                <span><em>In response to <a href="{{ item.prompt.get_absolute_url }}">{{ item.prompt.title }}</a></em></span>
+            {% else %}
+                <p>{{ item.message }}</p>
+                <span><em>A prompt</em></span>
+            {% endif %}
+        </div>
+    {% if forloop.counter|divisibleby:"3" %}
     </div>
+    {% endif %}
 {% endfor %}
-</div>
 
 {% endblock %}
