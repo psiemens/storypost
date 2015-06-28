@@ -8,7 +8,10 @@
         $(".human-timestamp").each(function(idx, el) {
             el = $(el)
             el.attr("title", el.text())
-            el.html(self.timeparse(el.text()).fromNow())
+            if (el.hasClass("yearmonthday"))
+                el.html(self.timeparse(el.text(), "YYYY-MM-DD").fromNow())
+            else
+                el.html(self.timeparse(el.text()).fromNow())
         })
     }
 })(window.codex = window.codex || {})

@@ -14,7 +14,7 @@
     {% endif %}
 </div>
 </div>
-<span><em>Joined <span class="human-timestamp">{{ person.date_joined|date:"Y-n-j" }}</span></em></span>
+<span><em>Joined <span class="human-timestamp yearmonthday">{{ person.date_joined|date:"Y-n-j" }}</span></em></span>
 {% endblock %}
 
 {% block full %}
