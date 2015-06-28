@@ -4,6 +4,8 @@
 
 <h1>{{ person.name }}</h1>
 
+<p><em>Joined <span class="human-timestamp">{{ person.date_joined|date:"Y-n-j" }}</span></em></p>
+
 {% for list in lists %}
 <p><a href="{% url 'list_view' person.id %}">{{ list.title }}</a></p>
 {% endfor %}

@@ -23,6 +23,12 @@
         {% endblock %}
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static "codex.js" %}"></script>
+    <script>
+        $(codex.relativise_timestamps)
+    </script>
     {% block scripts %}
     {% endblock %}
 </body>
