@@ -30,6 +30,12 @@
     <div class="five columns">
         <div>
             <p>Created by <a href="{% url 'user_view' prompt.user.id %}">{{ prompt.user.name }}</a>.</p>
+            <p>Other prompts by {{ prompt.user.name }}:</p>
+            <ul>
+                {% for prompt in other_user_prompts %}
+                <li><a href="{% url 'prompt_view' 0 prompt.id %}">{{ prompt.title }}</a></li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>
