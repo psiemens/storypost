@@ -194,7 +194,7 @@ def prompt_respond(request, list_id, id):
 
 def user_view(request, id):
     context = {
-        'user': User.objects.get(pk=id),
+        'person': User.objects.get(pk=id),
         'lists': List.objects.filter(user__id=id)
     }
     return render(request, "user/view.html", context)

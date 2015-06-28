@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<h1>{{ user.name }}</h1>
+<h1>{{ person.name }}</h1>
 
 {% for list in lists %}
-<p><a href="{% url 'list_view' list.id %}">{{ list.title }}</a></p>
+<p><a href="{% url 'list_view' person.id %}">{{ list.title }}</a></p>
 {% endfor %}
 
 {% endblock %}
