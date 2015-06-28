@@ -5,6 +5,11 @@ header {
     border-bottom: 1px solid rgb(215, 215, 215);
 }
 
+footer {
+    margin-top: 40px;
+    border-top: 1px solid rgb(215, 215, 215);
+    padding: 20px 0;
+}
 
 a.logo {
     display: inline-block;
@@ -154,7 +159,7 @@ form select {
 
 ul.listing {
     list-style-type: none;
-    margin: 1rem 0 0 0;
+    margin: 1rem 0 1rem 0;
     border: 0;
 }
 
