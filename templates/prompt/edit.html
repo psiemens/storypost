@@ -1,17 +1,18 @@
+{% extends "base.html" %}
+
+{% block banner %}
+<h1>Create a prompt in {{ list.title }}</h1>
+{% endblock %}
+{% block left %}
 <form method="post" action="">
     {% csrf_token %}
-    <label>{{ form.title.label }}</label><br/>
+    <label>{{ form.title.label }}</label>
     {{ form.title }}
-    <br/><br/>
-
-    <label>{{ form.message.label }}</label><br/>
+    <label>{{ form.message.label }}</label>
     {{ form.message }}
-    <br/><br/>
-    <label>{{ form.description.label }}</label><br/>
+    <label>{{ form.description.label }}</label>
     {{ form.description }}
-    <br/><br/>
-
-    <label>{{ form.list.label }}</label><br/>
-    {{ form.list }}
+    <br/>
     <input type="submit">
 </form>
+{% endblock %}

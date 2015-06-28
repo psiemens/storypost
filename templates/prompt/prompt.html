@@ -15,10 +15,13 @@
 {% endblock %}
 
 
+
 {% block banner %}
 
+{% include 'messages.html' %}
+
 <div class="prompt-header">
-    <h6>{{ prompt.list.title }}</h6>
+    <h6><a href="{% url 'list_view' prompt.list.id %}">{{ prompt.list.title }}</a> &nbsp;&middot;&nbsp; {{ prompt.title }}</h6>
     <h3>{{ prompt.message }}</h3>
     {% if prompt.description %}
     <h6 class="prompt-description">{{ prompt.description }}</h6>
@@ -34,7 +37,7 @@
 </form>
 
 <ul class="reply-tabs">
-   <li><a href="#">Recent</a></li>
+   <li>Recent replies</li>
 </ul>
 <ul class="replies">
 {% for reply in prompt.replies %}
@@ -52,16 +55,20 @@
 <div>
     <a class="creator" href="{% url 'user_view' prompt.user.id %}">{{ prompt.user.name }}</a>
     {% if next_prompt %}
-        <p class="more-prompts">Next: <a href="{% url 'prompt_view' 0 next_prompt.id %}"><em>{{ next_prompt.title }}</em></a></p>
+        <p class="more-prompts">Next: <a href="{% url 'prompt_view' next_prompt.list.id next_prompt.id %}"><em>{{ next_prompt.title }}</em></a></p>
     {% endif %}
     {% if prev_prompt %}
-        <p class="more-prompts">Previously: <a href="{% url 'prompt_view' 0 prev_prompt.id %}"><em>{{ prev_prompt.title }}</em></a></p>
+        <p class="more-prompts">Previously: <a href="{% url 'prompt_view' prev_prompt.list.id prev_prompt.id %}"><em>{{ prev_prompt.title }}</em></a></p>
     {% endif %}
     <p class="more-prompts">More prompts by this user:</p>
     <ul>
         {% for prompt in other_user_prompts %}
-        <li><a href="{% url 'prompt_view' 0 prompt.id %}">{{ prompt.title }}</a></li>
+        <li><a href="{% url 'prompt_view' prompt.list.id prompt.id %}">{{ prompt.title }}</a></li>
         {% endfor %}
     </ul>
+    {% if user.id == prompt.user.auth_user.id %}
+    <a href="{% url 'prompt_send' prompt.list.id prompt.id %}" class="button">Publish</a><br/>
+    <a href="{% url 'prompt_delete' prompt.list.id prompt.id %}" class="button">Delete</a>
+    {% endif %}
 </div>
 {% endblock %}

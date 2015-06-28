@@ -14,7 +14,7 @@
                 <ul>
                     <li><a href="/" class="undecorated">Explore</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'user_view' user.id %}" class="undecorated">Profile</a></li>
+                    <li><a href="{% url 'user_view' user_id %}" class="undecorated">Profile</a></li>
                     <li><a href="{% url 'logout' %}" class="undecorated">Logout</a></li>
                     <li><a href="{% url 'prompt_add_quick' %}" class="button button-primary undecorated">Create Prompt</a></li>
                     {% else %}

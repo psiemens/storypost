@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response, render, redirect
+from django.contrib import messages
 
 from codexapp.main.models import User, List, Prompt
 from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm, PromptQuickForm
@@ -178,7 +179,7 @@ def prompt_add_quick(request):
             prompt = form.save(commit=False)
             prompt.user = user
             prompt.save()
-            return redirect(prompt_edit, prompt.list_id, prompt.id)
+            return redirect(prompt_view, prompt.list_id, prompt.id)
     else:
         form = PromptQuickForm()
 
@@ -187,6 +188,7 @@ def prompt_add_quick(request):
     }
 
     return render(request, "prompt/quick_add.html", context)
+
 
 def prompt_add(request, list_id):
 
@@ -200,32 +202,24 @@ def prompt_add(request, list_id):
             prompt.user = user
             prompt.list_id = list_id
             prompt.save()
-            return redirect(prompt_edit, list_id, prompt.id)
+            return redirect('prompt_view', int(list_id), int(prompt.id))
     else:
         form = PromptForm()
 
+    list = List.objects.get(pk=list_id)
+
     context = {
+        'list': list,
         'form': form,
     }
 
     return render(request, "prompt/edit.html", context)
 
-def prompt_edit(request, list_id, id):
 
-    prompt = Prompt.objects.get(pk=id)
+def prompt_delete(request, list_id, id):
 
-    if request.method == 'POST':
-        form = PromptForm(request.POST, instance=prompt)
-        if form.is_valid():
-            form.save()
-    else:
-        form = PromptForm(instance=prompt)
-
-    context = {
-        'form': form,
-    }
-
-    return render(request, "prompt/edit.html", context)
+    Prompt.objects.get(pk=id).delete()
+    return redirect(list_view, list_id)
 
 def prompt_send(request, list_id, id):
 
@@ -234,12 +228,16 @@ def prompt_send(request, list_id, id):
     sent = prompt.send()
 
     if not sent:
-         raise Exception('Campaign wasn\'t sent')
+         messages.error(request, 'The campaign could not be sent.')
+    else:
+        messages.success(request, 'The campaign has been sent.')
+
+    return redirect(prompt_view, list_id, id)
 
     return render(request, "prompt/send.html")
 
 def prompt_respond(request, list_id, id):
-    
+
     # PROCESS POST SUBMISSION
     # send to mailchimp
     # and log in db

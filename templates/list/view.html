@@ -10,7 +10,7 @@
 
 {% block right %}
 <div class="control topbar">
-    {% if user.id == codex_user.auth_user.id %}
+    {% if user.id == list.user.auth_user.id %}
     <a class="button" href="{% url 'list_edit' list_id %}">Edit List</a>
     {% else %}
     <a class="button" href="{% url 'list_subscribe' list_id %}">Subscribe</a>
