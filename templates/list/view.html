@@ -5,7 +5,7 @@
 <div class="topbar">
 <h1>{{ list.title }}</h1>
 </div>
-<span>by <a href="{% url 'user_view' user.id %}">{{ codex_user.name }}</a></span>
+<span>By <a href="{% url 'user_view' list.user.username %}">{{ codex_user.name }}</a></span>
 {% endblock %}
 
 {% block right %}

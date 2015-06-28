@@ -30,7 +30,7 @@ def register(request):
 
     return render(request, "register.html", context)
 
-def profile(request):
+def profile_edit(request):
 
     user = User.objects.get(auth_user=request.user.id)
 
@@ -38,7 +38,7 @@ def profile(request):
         form = UserForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect(profile)
+            return redirect('user_view', request.user.username)
     else:
         form = UserForm(instance=user)
 
@@ -46,7 +46,7 @@ def profile(request):
         'form': form,
     }
 
-    return render(request, "user/profile.html", context)
+    return render(request, "user/edit.html", context)
 
 def logout(request):
     from django.contrib.auth.views import logout
@@ -244,9 +244,6 @@ def prompt_send(request, list_id, id):
 def prompt_respond(request, list_id, id):
     
     form = ReplyForm(request.POST)
-    print dir(request.POST)
-    print request.POST
-    print form
 
     if not form.is_valid():
         return HttpResponse("bad form! no potato")
@@ -264,9 +261,11 @@ def prompt_respond(request, list_id, id):
     return redirect('prompt_view', list_id, id)
 
 
-def user_view(request, id):
+def user_view(request, username=None):
+
+    person = User.objects.get(auth_user__username=username)
     context = {
-        'person': User.objects.get(pk=id),
-        'lists': List.objects.filter(user__id=id)
+        'person': person,
+        'lists': List.objects.filter(user__id=person.id)
     }
     return render(request, "user/view.html", context)

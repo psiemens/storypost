@@ -14,6 +14,10 @@ class User(Model):
     date_joined = DateTimeField(auto_now_add=True)
 
     @property
+    def username(self):
+        return self.auth_user.username
+
+    @property
     def email(self):
         return self.auth_user.email
 
@@ -87,12 +91,12 @@ class Prompt(Model):
     mc_campaign_id = CharField(max_length=255) # Mapped to MailChmip Campaign instance
     title = CharField(max_length=255)
     message = TextField()
-    description = TextField()
+    description = TextField(null=True)
     list = ForeignKey(List)
 
     @property
     def replies(self):
-        return Reply.objects.filter(prompt=self)
+        return Reply.objects.filter(prompt=self).order_by('-timestamp')
 
     def send(self):
         return mailchimp(self.user.mc_api_key).campaigns.get(self.mc_campaign_id).send()
@@ -100,7 +104,7 @@ class Prompt(Model):
     def sync_replies(self):
 
         try:
-            last_reply = Reply.objects.order('-timestamp')[0]
+            last_reply = Reply.objects.order_by('-timestamp')[0]
             last_timestamp = last_reply.timestamp
         except:
             last_timestamp = datetime.fromtimestamp(0)
