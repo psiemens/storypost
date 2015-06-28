@@ -1,5 +1,9 @@
 <form method="post" action="">
     {% csrf_token %}
+    <label>{{ form.title.label }}</label><br/>
+    {{ form.title }}
+    <br/><br/>
+
     <label>{{ form.message.label }}</label><br/>
     {{ form.message }}
     <br/><br/>

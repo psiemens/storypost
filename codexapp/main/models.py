@@ -55,9 +55,14 @@ class Prompt(Model):
 
     user = ForeignKey(User)
     mc_campaign_id = CharField(max_length=255) # Mapped to MailChmip Campaign instance
+    title = CharField(max_length=255)
     message = TextField()
     description = TextField()
     list = ForeignKey(List)
+
+    def get_html(self):
+        from django.template.loader import render_to_string
+        return render_to_string('prompt/email.html', {'prompt': self})
 
     def save(self, *args, **kwargs):
 
@@ -65,15 +70,15 @@ class Prompt(Model):
 
             options = {
                 'list_id': self.list.mc_list_id,
-                'subject': self.message,
+                'subject': self.title,
                 'from_email': 'peterjsiemens@gmail.com',
                 'from_name': 'Peter Siemens',
                 'to_name': 'Test people'
             }
 
             content = {
-                'html': 'This is a test email',
-                'text': 'This is a test email'
+                'html': self.get_html(),
+                'text': self.message,
             }
 
             campaign = mailchimp.campaigns.create(options=options, content=content, from_email='peterjsiemens@gmail.com', from_name='Peter Siemens', to_name='John Smith')
