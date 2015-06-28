@@ -184,6 +184,13 @@ def prompt_send(request, list_id, id):
 
     return render(request, "prompt/send.html")
 
+def prompt_respond(request, list_id, id):
+
+    # PROCESS POST SUBMISSION
+    # send to mailchimp
+    # and log in db
+    return redirect(Prompt.objects.get(pk=id))
+
 
 def user_view(request, id):
     context = {
