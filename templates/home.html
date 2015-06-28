@@ -20,7 +20,7 @@
                 <span><em>In response to <a href="{{ item.prompt.get_absolute_url }}">{{ item.prompt.title }}</a></em></span>
             {% else %}
                 <p>{{ item.message }}</p>
-                <span><em>A prompt by <a href="{% url 'user_view' item.user.username %}">{{ item.user.name }}</a></em></span>
+                <span><em>A <a href="{{ item.get_absolute_url }}">prompt</a> by <a href="{% url 'user_view' item.user.username %}">{{ item.user.name }}</a></em></span>
             {% endif %}
         </div>
     {% if forloop.counter|divisibleby:"3" %}
