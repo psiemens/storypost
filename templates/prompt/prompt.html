@@ -57,6 +57,14 @@
                 <li><a href="{% url 'prompt_view' 0 prompt.id %}">{{ prompt.title }}</a></li>
                 {% endfor %}
             </ul>
+            {% if next_prompt %}
+                <p class="more-prompts">Next:</p>
+                <p><a href="{% url 'prompt_view' 0 next_prompt.id %}"><em>{{ next_prompt.message }}</em></a></p>
+            {% endif %}
+            {% if prev_prompt %}
+                <p class="more-prompts">Previously:</p>
+                <p><a href="{% url 'prompt_view' 0 prev_prompt.id %}"><em>{{ prev_prompt.message }}</em></a></p>
+            {% endif %}
         </div>
     </div>
 </div>

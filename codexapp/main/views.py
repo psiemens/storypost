@@ -130,7 +130,13 @@ def prompt_view(request, list_id, id):
     context = {
         'prompt': p,
         'other_user_prompts': Prompt.objects.filter(user__id=p.user_id)
-                                            .order_by('-id')[:4]
+                                            .order_by('-id')[:4],
+        'prev_prompt': Prompt.objects.filter(list__id=p.list_id)
+                                     .filter(pk__lt=id)
+                                     .order_by('-id').first(),
+        'next_prompt': Prompt.objects.filter(list__id=p.list_id)
+                                     .filter(pk__gt=id)
+                                     .order_by('id').first()
     }
 
     return render(request, "prompt/prompt.html", context)
