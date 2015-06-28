@@ -40,6 +40,10 @@ header .columns {
     color: inherit;
 }
 
+.centered {
+    text-align: center;
+}
+
 .half-height {
     font-size: 50%;
 }

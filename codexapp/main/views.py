@@ -6,6 +6,7 @@ from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm
 
 def home(request):
     context = {
+        'featured_prompt': Prompt.objects.get(pk=6),
         'featured_replies': [
             Reply.objects.get(pk=5)
         ]

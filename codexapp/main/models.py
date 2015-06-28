@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db.models import Model, IntegerField, CharField, TextField, ForeignKey, OneToOneField, DateTimeField
 from codexapp.remote import mailchimp
 
@@ -131,6 +132,9 @@ class Prompt(Model):
     def get_html(self):
         from django.template.loader import render_to_string
         return render_to_string('prompt/email.html', {'prompt': self})
+
+    def get_absolute_url(self):
+        return reverse('codexapp.main.views.prompt_view', args=[self.list.id, self.id])
 
     def save(self, *args, **kwargs):
 
