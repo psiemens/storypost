@@ -34,12 +34,14 @@
     {% if prev_prompt %}
         <p class="more-prompts">Previously: <a href="{% url 'prompt_view' prev_prompt.list.id prev_prompt.id %}"><em>{{ prev_prompt.title }}</em></a></p>
     {% endif %}
+    {% if other_user_prompts %}
     <p class="more-prompts">More prompts by this user:</p>
     <ul>
         {% for prompt in other_user_prompts %}
         <li><a href="{% url 'prompt_view' prompt.list.id prompt.id %}">{{ prompt.title }}</a></li>
         {% endfor %}
     </ul>
+    {% endif %}
     {% if user.id == prompt.user.auth_user.id %}
     <a href="{% url 'prompt_send' prompt.list.id prompt.id %}" class="button">Publish</a><br/>
     <a href="{% url 'prompt_delete' prompt.list.id prompt.id %}" class="button">Delete</a>

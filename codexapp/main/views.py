@@ -10,7 +10,7 @@ from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm
 
 def home(request):
     context = {
-        'featured_prompt': Prompt.objects.get(pk=6),
+        'featured_prompt': Prompt.objects.get(pk=27),
         'featured_items': itertools.chain.from_iterable(zip(
             Reply.objects.order_by('-points')[:3],
             Prompt.objects.filter(pk__gte=12).order_by('-id')
@@ -181,6 +181,7 @@ def prompt_view(request, list_id, id):
     context = {
         'prompt': p,
         'other_user_prompts': Prompt.objects.filter(user__id=p.user_id)
+                                            .exclude(pk=id)
                                             .order_by('-id')[:4],
         'prev_prompt': Prompt.objects.filter(list__id=p.list_id)
                                      .filter(pk__lt=id)
