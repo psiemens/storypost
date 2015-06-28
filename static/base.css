@@ -9,6 +9,10 @@ header {
     font-style: italic;
 }
 
+.person {
+    color: #888;
+}
+
 .prompt-description {
     font-style: italic;
 }

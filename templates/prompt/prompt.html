@@ -21,7 +21,7 @@
         {% for conversation in prompt.conversations %}
             <div>
                 <p>{{ conversation.last_message.message }}</p>
-                <p>{{ conversation.last_message.from_email }}</p>
+                <p class="person">{{ conversation.last_message.from_email }}</p>
             </div>
         {% endfor %}
 
@@ -37,11 +37,6 @@
                 {% endfor %}
             </ul>
         </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="twelve columns">
     </div>
 </div>
 
