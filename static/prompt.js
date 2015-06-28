@@ -36,7 +36,7 @@ var PromptReply = React.createClass({displayName: "PromptReply",
                         React.createElement("span", null,  this.state.points, " points  ·  ", React.createElement("a", {href: "#", onClick: this.upvote}, "upvote"))
                     ), 
                     React.createElement("div", {className: "u-pull-right"}, 
-                        React.createElement("span", null,  this.props.email, "  ·  ", React.createElement("span", {className: "human-timestamp"},  this.state.fromNow))
+                        React.createElement("span", null,  this.props.email.split("@")[0], "  ·  ", React.createElement("span", {className: "human-timestamp"},  this.state.fromNow))
                     )
                 )
             )
