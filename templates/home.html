@@ -2,6 +2,12 @@
 
 {% block content %}
 
-the home page
+<p>the home page</p>
+
+<h5>Featured</h5>
+
+{% for reply in featured_replies %}
+    <p>{{ reply.content }}</p>
+{% endfor %}
 
 {% endblock %}

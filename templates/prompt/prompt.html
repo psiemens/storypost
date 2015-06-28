@@ -13,7 +13,7 @@
     <div class="eight columns">
         <form action="./respond" method="POST">
             {% csrf_token %}
-            <textarea name="message" class="message u-full-width"></textarea>
+            <textarea name="content" class="message u-full-width"></textarea>
             <input type="submit" class="button-primary" value="Send">
         </form>
 
@@ -21,7 +21,7 @@
            <li><a href="#">Recent</a></li>
         </ul>
         <ul class="replies">
-        {% for reply in prompt.replies %}
+        {% for reply in prompt.replies reversed %}
             <li>
                 <div class="content">
                     <p>{{ reply.content }}</p>

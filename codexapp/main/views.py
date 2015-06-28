@@ -1,11 +1,16 @@
-from django.shortcuts import render_to_response, render, redirect
+from django.shortcuts import render_to_response, render, redirect, HttpResponse
 
-from codexapp.main.models import User, List, Prompt
-from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm, PromptQuickForm
+from codexapp.main.models import User, List, Prompt, Reply
+from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm, PromptQuickForm, ReplyForm
 
 def home(request):
+    context = {
+        'featured_replies': [
+            Reply.objects.get(pk=5)
+        ]
+    }
 
-    return render(request, "home.html", {})
+    return render(request, "home.html", context)
 
 
 def register(request):
@@ -239,9 +244,23 @@ def prompt_send(request, list_id, id):
 
 def prompt_respond(request, list_id, id):
     
-    # PROCESS POST SUBMISSION
-    # send to mailchimp
-    # and log in db
+    form = ReplyForm(request.POST)
+    print dir(request.POST)
+    print request.POST
+
+    if not form.is_valid():
+        return HttpResponse("bad form! no potato")
+
+    reply = form.save(commit=False)
+
+    me = User.objects.get(pk=User.objects.get(auth_user=request.user).id)
+
+    reply.user = me
+    reply.email = me.email
+    reply.prompt = Prompt.objects.get(pk=id)
+
+    reply.save()
+
     return redirect('prompt_view', list_id, id)
 
 

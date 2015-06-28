@@ -79,7 +79,7 @@ class Reply(Model):
     email = CharField(max_length=255)
     content = TextField()
     user = ForeignKey(User, null=True)
-    timestamp = DateTimeField()
+    timestamp = DateTimeField(auto_now_add=True)
 
 class Prompt(Model):
 

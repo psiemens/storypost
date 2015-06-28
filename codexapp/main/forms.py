@@ -1,7 +1,7 @@
 from django.forms import Form, ModelForm, PasswordInput, CharField, EmailField
 from django.contrib.auth.models import User as AuthUser
 
-from codexapp.main.models import User, List, Prompt
+from codexapp.main.models import User, List, Prompt, Reply
 
 class UserForm(ModelForm):
 
@@ -58,3 +58,8 @@ class PromptForm(ModelForm):
     class Meta:
         model = Prompt
         exclude = ('mc_campaign_id', 'user', 'list')
+
+class ReplyForm(ModelForm):
+    class Meta:
+        model = Reply
+        exclude = ('mc_conversation_id', 'prompt', 'user', 'timestamp', 'email')
