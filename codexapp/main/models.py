@@ -1,5 +1,7 @@
+from datetime import datetime
+
 from django.conf import settings
-from django.db.models import Model, IntegerField, CharField, TextField, ForeignKey, OneToOneField
+from django.db.models import Model, IntegerField, CharField, TextField, ForeignKey, OneToOneField, DateTimeField
 from codexapp.remote import mailchimp
 
 class User(Model):
@@ -56,6 +58,14 @@ class List(Model):
 
         super(List, self).save(*args, **kwargs)
 
+class Reply(Model):
+
+    prompt = ForeignKey('Prompt')
+    mc_conversation_id = CharField(max_length=255, null=True, unique=True) # Mapped to MailChmip Conversation instance
+    email = CharField(max_length=255)
+    content = TextField()
+    user = ForeignKey(User, null=True)
+    timestamp = DateTimeField()
 
 class Prompt(Model):
 
@@ -67,11 +77,38 @@ class Prompt(Model):
     list = ForeignKey(List)
 
     @property
-    def conversations(self):
-        return mailchimp(self.user.mc_api_key).campaigns.get(self.mc_campaign_id).conversations()
+    def replies(self):
+        return Reply.objects.filter(prompt=self)
 
     def send(self):
         return mailchimp(self.user.mc_api_key).campaigns.get(self.mc_campaign_id).send()
+
+    def sync_replies(self):
+
+        try:
+            last_reply = Reply.objects.order('-timestamp')[0]
+            last_timestamp = last_reply.timestamp
+        except:
+            last_timestamp = datetime.fromtimestamp(0)
+
+        conversations = mailchimp(self.user.mc_api_key).campaigns.get(self.mc_campaign_id).conversations()
+
+        replies = [c for c in conversations if datetime.strptime(c['last_message']['timestamp'], "%Y-%m-%d %H:%M:%S") > last_timestamp]
+
+        for reply in replies:
+            try:
+                try:
+                    user = User.objects.get(email=reply['last_message']['from_email'])
+                except:
+                    user = None
+                reply_obj = Reply(prompt=self, mc_conversation_id=reply['id'], email=reply['last_message']['from_email'], content=reply['last_message']['message'], user=user, timestamp=datetime.strptime(reply['last_message']['timestamp'], "%Y-%m-%d %H:%M:%S"))
+                reply_obj.save()
+            except:
+                reply_obj = Reply.objects.get(mc_conversation_id=reply['id'])
+                reply_obj.content = reply['last_message']['message']
+                reply_obj.timestamp = datetime.strptime(reply['last_message']['timestamp'], "%Y-%m-%d %H:%M:%S")
+                reply_obj.save()
+
 
     def get_html(self):
         from django.template.loader import render_to_string
@@ -101,3 +138,6 @@ class Prompt(Model):
             self.mc_campaign_id = campaign['id']
 
         super(Prompt, self).save(*args, **kwargs)
+
+
+
