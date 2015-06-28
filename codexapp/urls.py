@@ -18,6 +18,9 @@ urlpatterns = patterns('',
 
     url(r'register/$', 'codexapp.main.views.register', name='register'),
     url(r'login/$', 'codexapp.main.views.login', name='login'),
+    url(r'logout/$', 'codexapp.main.views.logout', name='logout'),
+
+    url(r'profile/$', 'codexapp.main.views.profile', name='profile'),
 
     url(r'^$', 'codexapp.main.views.home', name='home'),
 

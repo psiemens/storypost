@@ -8,9 +8,16 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
-            <p class="banner"><a href="/" class="undecorated">codex</a></p>
-        </div>
+        <header class="row">
+            <div class="four columns"><a href="/" class="banner undecorated">codex</a></div>
+            <div class="main-nav eight columns">
+                <ul>
+                    <li><a class="undecorated">Explore</a></li>
+                    <li><a href="{% url 'lists' %}" class="undecorated">Your Lists</a></li>
+                    <li><a class="undecorated">Profile</a></li>
+                </ul>
+            </div>
+        </header>
 
         {% block content %}
         {% endblock %}

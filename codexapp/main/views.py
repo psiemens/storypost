@@ -1,17 +1,11 @@
 from django.shortcuts import render_to_response, render, redirect
 
 from codexapp.main.models import User, List, Prompt
-from codexapp.main.forms import RegistrationForm, ListForm, PromptForm
+from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm
 
 def home(request):
 
-    from codexapp.remote import mailchimp
-
-    context = {
-        'lists': mailchimp.lists()
-    }
-
-    return render(request, "home.html", context)
+    return render(request, "home.html", {})
 
 
 def register(request):
@@ -30,9 +24,27 @@ def register(request):
 
     return render(request, "register.html", context)
 
+def profile(request):
+
+    user = User.objects.get(auth_user=request.user.id)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect(profile)
+    else:
+        form = UserForm(instance=user)
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, "user/profile.html", context)
+
 def logout(request):
     from django.contrib.auth.views import logout
-    return logout(request, template_name='logout.html')
+    return logout(request, template_name='home.html')
 
 def login(request):
     from django.contrib.auth.views import login
@@ -110,8 +122,6 @@ def list_view(request, list_id):
 
 def prompt_view(request, list_id, id):
 
-    from codexapp.remote import mailchimp
-
     context = {
         'prompt': {  # TODO remove this hardcoded prompt
             'message': "What is the craziest dream you've ever had?"
@@ -119,7 +129,6 @@ def prompt_view(request, list_id, id):
     }
     prompt = Prompt.objects.get(pk=id)
     context['prompt'] = prompt
-    context['conversations'] = mailchimp.campaigns.get(prompt.mc_campaign_id).conversations()
     return render(request, "prompt/prompt.html", context)
 
 def prompt_add(request, list_id):
@@ -147,11 +156,9 @@ def prompt_add(request, list_id):
 
 def prompt_send(request, list_id, id):
 
-    from codexapp.remote import mailchimp
-
     prompt = Prompt.objects.get(pk=id)
 
-    sent = mailchimp.campaigns.get(prompt.mc_campaign_id).send()
+    sent = prompt.send()
 
     if not sent:
          raise Exception('Campaign wasn\'t sent')

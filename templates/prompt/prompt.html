@@ -18,7 +18,7 @@
         </form>
 
 
-        {% for conversation in conversations %}
+        {% for conversation in prompt.conversations %}
             <div>
                 <p>{{ conversation.last_message.message }}</p>
                 <p>{{ conversation.last_message.from_email }}</p>

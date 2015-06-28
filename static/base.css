@@ -1,3 +1,9 @@
+header {
+    padding: 20px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgb(215, 215, 215);
+}
+
 .banner {
     color: green;
     font-style: italic;
@@ -10,4 +16,23 @@
 .undecorated {
     text-decoration: none;
     color: inherit;
+}
+
+.main-nav {
+    text-align: right;
+}
+
+.main-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-nav ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.main-nav ul li:last-child {
+    margin-right: 0;
 }

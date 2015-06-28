@@ -2,12 +2,16 @@ from django.conf import settings
 from django.db.models import Model, IntegerField, CharField, TextField, ForeignKey, OneToOneField
 from codexapp.remote import mailchimp
 
-
 class User(Model):
 
     auth_user = OneToOneField(settings.AUTH_USER_MODEL)
 
     name = CharField(max_length=255)
+    mc_api_key = CharField(max_length=255)
+
+    @property
+    def email(self):
+        return self.auth_user.email
 
 
 class List(Model):
@@ -19,7 +23,7 @@ class List(Model):
 
     @property
     def members(self):
-        return mailchimp.lists.get(self.mc_list_id).members()
+        return mailchimp(self.user.mc_api_key).lists.get(self.mc_list_id).members()
 
     def __str__(self):
         return self.title
@@ -29,22 +33,24 @@ class List(Model):
         if not self.pk:
 
             contact = {
-                "company": 'test company',
-                "address1": 'test address 1',
-                "city": 'san francisco',
-                "state": 'california',
+                "company": 'Codex Hackathon',
+                "address1": '111 Mission St.',
+                "city": 'San Francisco',
+                "state": 'California',
                 "zip": '97213',
                 "country": 'United States'
             }
 
             campaign_defaults = {
-                "from_name": 'Peter Siemens',
-                "from_email": 'peterjsiemens@gmail.com',
-                "subject": "test list 123",
+                "from_name": self.user.name,
+                "from_email": self.user.email,
+                "subject": self.title,
                 "language": 'english'
             }
 
-            mc_list = mailchimp.lists.add(name=self.title, contact=contact, permission_reminder='test reminder', use_archive_bar=False, campaign_defaults=campaign_defaults)
+            permission_reminder = 'You are recieving this email because you subscribed to the %s list.' % self.title
+
+            mc_list = mailchimp(self.user.mc_api_key).lists.add(name=self.title, contact=contact, permission_reminder=permission_reminder, use_archive_bar=False, campaign_defaults=campaign_defaults)
 
             self.mc_list_id = mc_list['id']
 
@@ -60,6 +66,13 @@ class Prompt(Model):
     description = TextField()
     list = ForeignKey(List)
 
+    @property
+    def conversations(self):
+        return mailchimp(self.user.mc_api_key).campaigns.get(self.mc_campaign_id).conversations()
+
+    def send(self):
+        return mailchimp(self.user.mc_api_key).campaigns.get(self.mc_campaign_id).send()
+
     def get_html(self):
         from django.template.loader import render_to_string
         return render_to_string('prompt/email.html', {'prompt': self})
@@ -68,12 +81,14 @@ class Prompt(Model):
 
         if not self.pk:
 
+            to_name = self.list.title + ' subscribers'
+
             options = {
                 'list_id': self.list.mc_list_id,
                 'subject': self.title,
-                'from_email': 'peterjsiemens@gmail.com',
-                'from_name': 'Peter Siemens',
-                'to_name': 'Test people'
+                'from_email': self.user.email,
+                'from_name': self.user.name,
+                'to_name': to_name
             }
 
             content = {
@@ -81,7 +96,7 @@ class Prompt(Model):
                 'text': self.message,
             }
 
-            campaign = mailchimp.campaigns.create(options=options, content=content, from_email='peterjsiemens@gmail.com', from_name='Peter Siemens', to_name='John Smith')
+            campaign = mailchimp(self.user.mc_api_key).campaigns.create(options=options, content=content, from_email=self.user.email, from_name=self.user.name, to_name=to_name)
 
             self.mc_campaign_id = campaign['id']
 

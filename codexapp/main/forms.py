@@ -3,6 +3,13 @@ from django.contrib.auth.models import User as AuthUser
 
 from codexapp.main.models import User, List, Prompt
 
+class UserForm(ModelForm):
+
+    mc_api_key = CharField(max_length=255, label="MailChimp API Key")
+
+    class Meta:
+        model = User
+        exclude = ('auth_user',)
 
 class RegistrationForm(ModelForm):
 
