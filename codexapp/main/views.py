@@ -98,14 +98,15 @@ def list_edit(request, id):
     return render(request, "list/edit.html", context)
 
 
-def prompts(request, list_id):
+def list_view(request, list_id):
 
     context = {
         'list_id': list_id,
+        'name': List.objects.get(pk=list_id),
         'prompts': Prompt.objects.filter(list_id=list_id)
     }
 
-    return render(request, "prompt/index.html", context)
+    return render(request, "list/view.html", context)
 
 def prompt_view(request, list_id, id):
     context = {

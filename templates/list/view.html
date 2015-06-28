@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<h1>{{ name }}</h1>
+
 {% for prompt in prompts %}
     <a href="{% url 'prompt_edit' list_id prompt.id %}">{{ prompt.message }}</a><br/>
 {% endfor %}
