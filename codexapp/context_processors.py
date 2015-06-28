@@ -1,13 +1,14 @@
 from codexapp.main.models import User
 
-def user_id(request):
+def user(request):
     try:
         user = User.objects.get(auth_user=request.user.id)
-        return user.id
+        user_id = user.id
+        user_mc_enabled = user.mc_api_key
     except:
-        return None
-
-def user(request):
+        user_id = None
+        user_mc_enabled = False
     return {
-        'user_id': user_id(request)
+        'user_id': user_id,
+        'user_mc_enabled': user_mc_enabled
     }

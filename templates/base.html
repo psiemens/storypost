@@ -16,7 +16,9 @@
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'user_view' user.username %}" class="undecorated">Profile</a></li>
                     <li><a href="{% url 'logout' %}" class="undecorated">Logout</a></li>
+                    {% if user_mc_enabled %}
                     <li><a href="{% url 'prompt_add_quick' %}" class="button button-primary undecorated">Create Prompt</a></li>
+                    {% endif %}
                     {% else %}
                     <li><a href="{% url 'login' %}" class="undecorated">Login</a></li>
                     <li><a href="{% url 'register' %}" class="button undecorated">Register</a></li>
@@ -24,6 +26,7 @@
                 </ul>
             </div>
         </header>
+        {% include 'messages.html' %}
         {% block banner %}
         {% endblock %}
         <div class="row">

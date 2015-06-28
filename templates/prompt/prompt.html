@@ -13,13 +13,7 @@
     })
 </script>
 {% endblock %}
-
-
-
 {% block banner %}
-
-{% include 'messages.html' %}
-
 <div class="prompt-header">
     <h6><a href="{% url 'list_view' prompt.list.id %}">{{ prompt.list.title }}</a> &nbsp;&middot;&nbsp; {{ prompt.title }}</h6>
     <h3>{{ prompt.message|linebreaks }}</h3>
@@ -32,7 +26,7 @@
 {% block left %}
 <form action="./respond" method="POST">
     {% csrf_token %}
-    <textarea name="message" class="message u-full-width"></textarea>
+    <textarea name="content" class="message u-full-width"></textarea>
     {% if user.is_authenticated %}
     <button class="button-primary">Send</button>
     {% else %}
@@ -44,7 +38,7 @@
    <li>Recent replies</li>
 </ul>
 <ul class="replies">
-{% for reply in prompt.replies reversed %}
+{% for reply in prompt.replies %}
     <li>
         <div class="content">
             <p>{{ reply.content }}</p>

@@ -8,22 +8,43 @@
 <div class="five columns control topbar">
     {% if user.id == person.auth_user.id %}
     <a class="button" href="{% url 'profile_edit' %}">Edit Profile</a>
-    <a class="button" href="{% url 'list_add' %}">Create List</a>
+        {% if person.mc_api_key %}
+        <a class="button" href="{% url 'list_add' %}">Create List</a>
+        {% endif %}
     {% endif %}
 </div>
 </div>
-<p><em>Joined <span class="human-timestamp">{{ person.date_joined|date:"Y-n-j" }}</span></em></p>
+<span><em>Joined <span class="human-timestamp">{{ person.date_joined|date:"Y-n-j" }}</span></em></span>
 {% endblock %}
 
 {% block full %}
-<div class="block-listing row">
 
+<div class="block-listing row">
 {% for list in lists %}
     <div class="block four columns">
         <h6><a href="{% url 'list_view' list.id %}">{{ list.title }}</a></h6>
         <p>{{ list.description }}</p>
+        <span><em>{{ list.subscribers.count }} subscribers</em></span>
     </div>
 {% endfor %}
 </div>
+
+<div class="row">
+    <div class="eight columns">
+        <h6>Subscribed Lists</h6>
+        {% if person.lists.all %}
+        <ul class="listing">
+        {% for list in person.lists.all %}
+            <li>
+                <a href="{% url 'list_view' list.id %}">{{ list.title }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p><em>This user isn't subscribed to any lists.</em></p>
+        {% endif %}
+    </div>
+</div>
+
 
 {% endblock %}

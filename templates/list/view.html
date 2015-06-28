@@ -5,7 +5,7 @@
 <div class="topbar">
 <h1>{{ list.title }}</h1>
 </div>
-<span>By <a href="{% url 'user_view' list.user.username %}">{{ codex_user.name }}</a></span>
+<span>By <a href="{% url 'user_view' list.user.username %}">{{ list.user.name }}</a> &nbsp;&middot;&nbsp; {{ list.subscribers.count }} subscribers</span>
 {% endblock %}
 
 {% block right %}
@@ -13,19 +13,29 @@
     {% if user.id == list.user.auth_user.id %}
     <a class="button" href="{% url 'list_edit' list_id %}">Edit List</a>
     {% else %}
-    <a class="button" href="{% url 'list_subscribe' list_id %}">Subscribe</a>
+        {% if subscribed %}
+        <a class="button" href="{% url 'list_unsubscribe' list_id %}">Unsubscribe</a>
+        {% else %}
+        <a class="button button-primary" href="{% url 'list_subscribe' list_id %}">Subscribe</a>
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}
 
 {% block full %}
-<ul class="listing">
-{% for prompt in prompts %}
-    <li>
-        <a href="{% url 'prompt_view' list_id prompt.id %}">{{ prompt.title }}</a>
-    </li>
-{% endfor %}
-</ul>
-
+<div class="content-area">
+    {% if prompts.count != 0 %}
+    <ul class="listing">
+    {% for prompt in prompts %}
+        <li>
+            <a href="{% url 'prompt_view' list_id prompt.id %}">{{ prompt.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% if user.id == list.user.auth_user.id %}
+    <a class="button button-primary" href="{% url 'prompt_add' list.id %}">Add prompt to list</a>
+    {% endif %}
+</div>
 {% endblock %}
 

@@ -1,5 +1,7 @@
 from django.shortcuts import render_to_response, render, redirect, HttpResponse
 from django.contrib import messages
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import authenticate
 
 from codexapp.main.models import User, List, Prompt, Reply
 from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm, PromptQuickForm, ReplyForm
@@ -20,6 +22,11 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            username = request.POST['username']
+            password = request.POST['password1']
+             #authenticate user then login
+            user = authenticate(username=username, password=password)
+            auth_login(request, user)
             return redirect(home)
     else:
         form = RegistrationForm()
@@ -123,10 +130,13 @@ def list_view(request, list_id):
 
     lst = List.objects.get(pk=list_id)
 
+    user = User.objects.get(auth_user=request.user)
+
     context = {
         'list_id': list_id,
         'list': lst,
-        'codex_user': User.objects.get(pk=lst.user_id),
+        'subscribed': user.subscribed_to(lst),
+        'codex_user': user,
         'prompts': Prompt.objects.filter(list_id=list_id)
     }
 
