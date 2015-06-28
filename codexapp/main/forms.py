@@ -62,4 +62,4 @@ class PromptForm(ModelForm):
 class ReplyForm(ModelForm):
     class Meta:
         model = Reply
-        exclude = ('mc_conversation_id', 'prompt', 'user', 'timestamp', 'email')
+        fields = ('content',)

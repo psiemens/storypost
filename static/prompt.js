@@ -3,9 +3,20 @@ var BASE_URL = 'http://localhost:8000/';
 
 var PromptReply = React.createClass({displayName: "PromptReply",
     getInitialState: function(){
+        var timestamp = codex.timeparse(this.props.timestamp, 'YYYY-MM-DDTHH:mm:ssZ');
         return {
             points: this.props.points,
+            timestamp: timestamp,
+            fromNow: timestamp.fromNow()
         }
+    },
+    tick: function(){
+        this.setState({
+            fromNow: this.state.timestamp.fromNow()
+        });
+    },
+    componentDidMount: function(){
+        this.interval = setInterval(this.tick, 1000);
     },
     upvote: function(event){
         event.preventDefault();
@@ -26,7 +37,7 @@ var PromptReply = React.createClass({displayName: "PromptReply",
                         React.createElement("span", null,  this.state.points, " points  ·  ", React.createElement("a", {href: "#", onClick: this.upvote}, "upvote"))
                     ), 
                     React.createElement("div", {className: "u-pull-right"}, 
-                        React.createElement("span", null,  this.props.email, "  ·  ", React.createElement("span", {className: "human-timestamp"},  codex.timeparse(this.props.timestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() ))
+                        React.createElement("span", null,  this.props.email, "  ·  ", React.createElement("span", {className: "human-timestamp"},  this.state.fromNow))
                     )
                 )
             )

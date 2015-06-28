@@ -256,6 +256,8 @@ def prompt_respond(request, list_id, id):
     
     form = ReplyForm(request.POST)
 
+    print form
+
     if not form.is_valid():
         return HttpResponse("bad form! no potato")
 
