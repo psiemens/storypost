@@ -1,5 +1,4 @@
-var BASE_URL = 'http://localhost:8000/';
-
+var BASE_URL = '/';
 
 var PromptReply = React.createClass({
     getInitialState: function(){
