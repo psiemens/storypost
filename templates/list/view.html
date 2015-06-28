@@ -12,7 +12,7 @@
 <div class="control topbar">
     {% if user.id == list.user.auth_user.id %}
     <a class="button" href="{% url 'list_edit' list_id %}">Edit List</a>
-    {% else %}
+    {% elif user.is_authenticated %}
         {% if subscribed %}
         <a class="button" href="{% url 'list_unsubscribe' list_id %}">Unsubscribe</a>
         {% else %}

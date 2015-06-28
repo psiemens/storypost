@@ -12,7 +12,6 @@
             <div class="six columns"><a href="/" class="logo banner undecorated"><img alt="Storypost" src="{% static 'storypost-logo.svg' %}" /></a></div>
             <div class="main-nav six columns">
                 <ul>
-                    <li><a href="/" class="undecorated">Explore</a></li>
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'user_view' user.username %}" class="undecorated">Profile</a></li>
                     <li><a href="{% url 'logout' %}" class="undecorated">Logout</a></li>

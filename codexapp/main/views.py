@@ -134,12 +134,17 @@ def list_view(request, list_id):
 
     lst = List.objects.get(pk=list_id)
 
-    user = User.objects.get(auth_user=request.user)
+    if request.user.is_authenticated():
+        user = User.objects.get(auth_user__id=request.user.id)
+        subscribed = user.subscribed_to(lst)
+    else:
+        user = False
+        subscribed = False
 
     context = {
         'list_id': list_id,
         'list': lst,
-        'subscribed': user.subscribed_to(lst),
+        'subscribed': subscribed,
         'codex_user': user,
         'prompts': Prompt.objects.filter(list_id=list_id)
     }
