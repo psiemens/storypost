@@ -1,7 +1,8 @@
 from datetime import datetime
+import pytz
 
 from django.conf import settings
-from django.db.models import Model, IntegerField, CharField, TextField, ForeignKey, OneToOneField, DateTimeField, ManyToManyField
+from django.db.models import Model, PositiveIntegerField, CharField, TextField, ForeignKey, OneToOneField, DateTimeField, ManyToManyField
 from django.core.urlresolvers import reverse
 
 from codexapp.remote import mailchimp
@@ -26,9 +27,6 @@ class User(Model):
         return self.auth_user.email
 
     def subscribed_to(self, list):
-        print list.id
-        print self.name
-        print self.lists.all()
         return self.lists.filter(pk=list.id).exists()
 
 class List(Model):
@@ -101,6 +99,7 @@ class Reply(Model):
     content = TextField()
     user = ForeignKey(User, null=True)
     timestamp = DateTimeField(auto_now_add=True)
+    points = PositiveIntegerField(default=0)
 
 class Prompt(Model):
 
@@ -119,16 +118,19 @@ class Prompt(Model):
         return mailchimp(self.user.mc_api_key).campaigns.get(self.mc_campaign_id).send()
 
     def sync_replies(self):
-
         try:
             last_reply = Reply.objects.order_by('-timestamp')[0]
             last_timestamp = last_reply.timestamp
         except:
             last_timestamp = datetime.fromtimestamp(0)
 
+        utc=pytz.timezone('US/Pacific')
+
+        #last_timestamp = utc.localize(last_timestamp)
+
         conversations = mailchimp(self.user.mc_api_key).campaigns.get(self.mc_campaign_id).conversations()
 
-        replies = [c for c in conversations if datetime.strptime(c['last_message']['timestamp'], "%Y-%m-%d %H:%M:%S") > last_timestamp]
+        replies = [c for c in conversations if utc.localize(datetime.strptime(c['last_message']['timestamp'], "%Y-%m-%d %H:%M:%S")) > last_timestamp]
 
         for reply in replies:
             try:

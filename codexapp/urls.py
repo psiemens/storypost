@@ -28,6 +28,9 @@ urlpatterns = patterns('',
 
     url(r'profile/edit/$', 'codexapp.main.views.profile_edit', name='profile_edit'),
 
+    url(r'api/prompt/(\d*)/$', 'codexapp.main.api.prompt', name='api_prompt'),
+    url(r'api/reply/(\d*)/upvote/$', 'codexapp.main.api.reply_upvote', name='api_reply_upvote'),
+
     url(r'^$', 'codexapp.main.views.home', name='home'),
 
     url(r'^admin/', include(admin.site.urls)),
