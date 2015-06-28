@@ -19,7 +19,6 @@ def register(request):
         form = RegistrationForm()
 
     context = {
-        'title': "Register",
         'form': form,
     }
 
@@ -82,11 +81,12 @@ def list_add(request):
             list = form.save(commit=False)
             list.user = user
             list.save()
-            return redirect(list_edit, list.id)
+            return redirect(list_view, list.id)
     else:
         form = ListForm()
 
     context = {
+        'title': 'Create a list',
         'form': form,
     }
 
@@ -101,10 +101,12 @@ def list_edit(request, id):
         form = ListForm(request.POST, instance=list)
         if form.is_valid():
             form.save()
+            return redirect(list_view, id)
     else:
         form = ListForm(instance=list)
 
     context = {
+        'title': 'Edit "%s"' % list.title,
         'form': form,
     }
 
@@ -181,7 +183,6 @@ def prompt_add_quick(request):
         form = PromptQuickForm()
 
     context = {
-        'title': "Create a prompt",
         'form': form,
     }
 

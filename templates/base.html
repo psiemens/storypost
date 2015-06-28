@@ -24,8 +24,19 @@
                 </ul>
             </div>
         </header>
-
-        {% block content %}
+        {% block banner %}
+        {% endblock %}
+        <div class="row">
+            <div class="eight columns">
+            {% block left %}
+            {% endblock %}
+            </div>
+            <div class="four columns">
+            {% block right %}
+            {% endblock %}
+            </div>
+        </div>
+        {% block full %}
         {% endblock %}
     </div>
 

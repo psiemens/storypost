@@ -118,3 +118,40 @@ form textarea {
 form select {
     min-width: 300px;
 }
+
+ul.listing {
+    list-style-type: none;
+    margin: 3rem 0 0 0;
+    border: 0;
+}
+
+ul.listing li {
+    border-top: 1px solid rgb(215, 215, 215);
+    padding: 10px 0;
+    margin: 0;
+}
+
+div.control {
+    text-align: right;
+}
+
+div.topbar {
+    height: 60px;
+    line-height: 60px;
+    margin-bottom: 2rem;
+}
+
+div.topbar h1 {
+    margin: 0;
+}
+
+.block-listing {
+    margin-top: 3rem;
+}
+
+.block-listing .block {
+    display: block;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 5px;
+    padding: 20px;
+}

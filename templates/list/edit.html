@@ -1,11 +1,14 @@
+{% extends "base.html" %}
+
+{% block left %}
+<h1>{{ title }}</h1>
 <form method="post" action="">
     {% csrf_token %}
-    <label>{{ form.title.label }}</label><br/>
+    <label>{{ form.title.label }}</label>
     {{ form.title }}
-    <br/><br/>
-    <label>{{ form.description.label }}</label><br/>
+    <label>{{ form.description.label }}</label>
     {{ form.description }}
-    <br/><br/>
-
+    <br/>
     <input type="submit">
 </form>
+{% endblock %}

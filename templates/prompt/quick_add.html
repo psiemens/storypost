@@ -1,6 +1,7 @@
-{% extends "form.html" %}
+{% extends "base.html" %}
 
-{% block form %}
+{% block left %}
+<h1>Create a prompt</h1>
 <form method="post" action="">
     {% csrf_token %}
     <label>{{ form.title.label }}</label>
