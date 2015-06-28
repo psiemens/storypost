@@ -5,11 +5,11 @@ from codexapp.main.models import User, List, Prompt, Reply
 
 class UserForm(ModelForm):
 
-    mc_api_key = CharField(max_length=255, label="MailChimp API Key")
+    mc_api_key = CharField(max_length=255, label="MailChimp API Key", required=False)
 
     class Meta:
         model = User
-        exclude = ('auth_user',)
+        exclude = ('auth_user', 'lists')
 
 class RegistrationForm(ModelForm):
 
@@ -41,7 +41,7 @@ class RegistrationForm(ModelForm):
 
     class Meta:
         model = User
-        exclude = ('auth_user', 'mc_api_key')
+        exclude = ('auth_user', 'mc_api_key', 'lists')
 
 
 class ListForm(ModelForm):

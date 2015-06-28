@@ -1,8 +1,9 @@
 from datetime import datetime
 
 from django.conf import settings
+from django.db.models import Model, IntegerField, CharField, TextField, ForeignKey, OneToOneField, DateTimeField, ManyToManyField
 from django.core.urlresolvers import reverse
-from django.db.models import Model, IntegerField, CharField, TextField, ForeignKey, OneToOneField, DateTimeField
+
 from codexapp.remote import mailchimp
 
 class User(Model):
@@ -10,9 +11,11 @@ class User(Model):
     auth_user = OneToOneField(settings.AUTH_USER_MODEL)
 
     name = CharField(max_length=255)
-    mc_api_key = CharField(max_length=255)
+    mc_api_key = CharField(max_length=255, null=True)
 
     date_joined = DateTimeField(auto_now_add=True)
+
+    lists = ManyToManyField('List', related_name='subscribers')
 
     @property
     def username(self):
@@ -22,6 +25,11 @@ class User(Model):
     def email(self):
         return self.auth_user.email
 
+    def subscribed_to(self, list):
+        print list.id
+        print self.name
+        print self.lists.all()
+        return self.lists.filter(pk=list.id).exists()
 
 class List(Model):
 
@@ -66,12 +74,20 @@ class List(Model):
         super(List, self).save(*args, **kwargs)
 
     def add_member(self, user):
+
+        user.lists.add(self)
+        user.save()
+
         try:
             mailchimp(self.user.mc_api_key).lists.get(self.mc_list_id).members.add(user.email)
         except:
             pass
 
     def remove_member(self, user):
+
+        user.lists.remove(self)
+        user.save()
+
         try:
             mailchimp(self.user.mc_api_key).lists.get(self.mc_list_id).members.remove(user.email)
         except:
