@@ -10,6 +10,10 @@
     <a href="{{ featured_prompt.get_absolute_url }}" class="button button-primary">Reply</a>
 </div>
 
+<div class="top-space">
+    <h6 class="centered"><em>Other popular prompts and responses:</em></h6>
+</div>
+
 {% for item in featured_items %}
     {% if forloop.counter|add:"2"|divisibleby:"3" or forloop.counter == 1 %}
     <div class="block-listing row">

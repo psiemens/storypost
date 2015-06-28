@@ -45,6 +45,10 @@ header .columns {
     color: inherit;
 }
 
+.top-space {
+    margin-top: 2rem;
+}
+
 .centered {
     text-align: center;
 }
