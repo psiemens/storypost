@@ -12,9 +12,9 @@
             <div class="four columns"><a href="/" class="banner undecorated">codex</a></div>
             <div class="main-nav eight columns">
                 <ul>
-                    <li><a class="undecorated">Explore</a></li>
+                    <li><a href="/" class="undecorated">Explore</a></li>
                     <li><a href="{% url 'lists' %}" class="undecorated">Your Lists</a></li>
-                    <li><a class="undecorated">Profile</a></li>
+                    <li><a href="{% url 'user_view' user.id %}" class="undecorated">Profile</a></li>
                 </ul>
             </div>
         </header>
