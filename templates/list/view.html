@@ -5,7 +5,7 @@
 <h1>{{ name }}</h1>
 
 {% for prompt in prompts %}
-    <a href="{% url 'prompt' list_id prompt.id %}">{{ prompt.message }}</a> - <a href="{% url 'prompt_send' list_id prompt.id %}">Send</a><br/>
+    <a href="{% url 'prompt_view' list_id prompt.id %}">{{ prompt.message }}</a> - <a href="{% url 'prompt_send' list_id prompt.id %}">Send</a><br/>
 {% endfor %}
 
 {% endblock %}
