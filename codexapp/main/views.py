@@ -246,13 +246,14 @@ def prompt_respond(request, list_id, id):
     form = ReplyForm(request.POST)
     print dir(request.POST)
     print request.POST
+    print form
 
     if not form.is_valid():
         return HttpResponse("bad form! no potato")
 
     reply = form.save(commit=False)
 
-    me = User.objects.get(pk=User.objects.get(auth_user=request.user).id)
+    me = User.objects.get(auth_user=request.user)
 
     reply.user = me
     reply.email = me.email
