@@ -2,35 +2,37 @@
 
 {% block content %}
 
-<h1>{{ prompt.message }}</h1>
-
-{% if prompt.description %}
-<h6 class="prompt-description">{{ prompt.description }}</h6>
-{% endif %}
-
+<div class="prompt-header">
+    <h6>Prompt</h6>
+    <h3>{{ prompt.message }}</h3>
+    {% if prompt.description %}
+    <h6 class="prompt-description">{{ prompt.description }}</h6>
+    {% endif %}
+</div>
 <div class="row">
 
-    <div class="seven columns">
+    <div class="eight columns">
         <form action="./respond" method="POST">
             {% csrf_token %}
-            <textarea name="message" class="u-full-width"></textarea>
+            <textarea name="message" class="message u-full-width"></textarea>
             <input type="submit" class="button-primary" value="Send">
         </form>
 
 
-        {% for conversation in prompt.conversations %}
+        {% for reply in prompt.replies %}
             <div>
-                <p>{{ conversation.last_message.message }}</p>
-                <p class="person">{{ conversation.last_message.from_email }}</p>
+                <p>{{ reply.content }}</p>
+                <p>{{ reply.email }}</p>
+                <p>{{ reply.timestamp }}</p>
             </div>
         {% endfor %}
 
     </div>
 
-    <div class="five columns">
+    <div class="four columns">
         <div>
-            <p>Created by <a href="{% url 'user_view' prompt.user.id %}">{{ prompt.user.name }}</a>.</p>
-            <p>Other prompts by {{ prompt.user.name }}:</p>
+            <a class="creator" href="{% url 'user_view' prompt.user.id %}">{{ prompt.user.name }}</a>
+            <p class="more-prompts">More prompts by this user:</p>
             <ul>
                 {% for prompt in other_user_prompts %}
                 <li><a href="{% url 'prompt_view' 0 prompt.id %}">{{ prompt.title }}</a></li>

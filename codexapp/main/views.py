@@ -139,6 +139,7 @@ def prompt_add(request, list_id):
 
     user = User.objects.get(auth_user=request.user.id)
 
+
     if request.method == 'POST':
         form = PromptForm(request.POST)
         if form.is_valid():

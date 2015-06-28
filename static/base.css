@@ -45,3 +45,30 @@ header {
     margin-right: 0;
 }
 
+a.creator {
+    display: block;
+    background-color: rgb(50, 210, 88);
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+a.creator:hover {
+    background-color: rgb(40, 160, 69);
+}
+
+.prompt-header {
+    margin-bottom: 40px;
+}
+
+textarea.message {
+    min-height: 175px;
+    font-size: 1.5rem;
+    padding: 20px 15px;
+    resize: none;
+}
+
+.more-prompts {
+    margin-bottom: 15px;
+}
