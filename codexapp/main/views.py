@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response, render, redirect, HttpResponse
+from django.contrib import messages
 
 from codexapp.main.models import User, List, Prompt, Reply
 from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm, PromptQuickForm, ReplyForm
@@ -24,7 +25,6 @@ def register(request):
         form = RegistrationForm()
 
     context = {
-        'title': "Register",
         'form': form,
     }
 
@@ -87,11 +87,12 @@ def list_add(request):
             list = form.save(commit=False)
             list.user = user
             list.save()
-            return redirect(list_edit, list.id)
+            return redirect(list_view, list.id)
     else:
         form = ListForm()
 
     context = {
+        'title': 'Create a list',
         'form': form,
     }
 
@@ -106,10 +107,12 @@ def list_edit(request, id):
         form = ListForm(request.POST, instance=list)
         if form.is_valid():
             form.save()
+            return redirect(list_view, id)
     else:
         form = ListForm(instance=list)
 
     context = {
+        'title': 'Edit "%s"' % list.title,
         'form': form,
     }
 
@@ -181,16 +184,16 @@ def prompt_add_quick(request):
             prompt = form.save(commit=False)
             prompt.user = user
             prompt.save()
-            return redirect(prompt_edit, prompt.list_id, prompt.id)
+            return redirect(prompt_view, prompt.list_id, prompt.id)
     else:
         form = PromptQuickForm()
 
     context = {
-        'title': "Create a prompt",
         'form': form,
     }
 
     return render(request, "prompt/quick_add.html", context)
+
 
 def prompt_add(request, list_id):
 
@@ -204,32 +207,24 @@ def prompt_add(request, list_id):
             prompt.user = user
             prompt.list_id = list_id
             prompt.save()
-            return redirect(prompt_edit, list_id, prompt.id)
+            return redirect('prompt_view', int(list_id), int(prompt.id))
     else:
         form = PromptForm()
 
+    list = List.objects.get(pk=list_id)
+
     context = {
+        'list': list,
         'form': form,
     }
 
     return render(request, "prompt/edit.html", context)
 
-def prompt_edit(request, list_id, id):
 
-    prompt = Prompt.objects.get(pk=id)
+def prompt_delete(request, list_id, id):
 
-    if request.method == 'POST':
-        form = PromptForm(request.POST, instance=prompt)
-        if form.is_valid():
-            form.save()
-    else:
-        form = PromptForm(instance=prompt)
-
-    context = {
-        'form': form,
-    }
-
-    return render(request, "prompt/edit.html", context)
+    Prompt.objects.get(pk=id).delete()
+    return redirect(list_view, list_id)
 
 def prompt_send(request, list_id, id):
 
@@ -238,7 +233,11 @@ def prompt_send(request, list_id, id):
     sent = prompt.send()
 
     if not sent:
-         raise Exception('Campaign wasn\'t sent')
+         messages.error(request, 'The campaign could not be sent.')
+    else:
+        messages.success(request, 'The campaign has been sent.')
+
+    return redirect(prompt_view, list_id, id)
 
     return render(request, "prompt/send.html")
 

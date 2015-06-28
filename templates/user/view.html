@@ -1,13 +1,29 @@
 {% extends "base.html" %}
 
-{% block content %}
-
+{% block left %}
+<div class="topbar">
 <h1>{{ person.name }}</h1>
-
+</div>
 <p><em>Joined <span class="human-timestamp">{{ person.date_joined|date:"Y-n-j" }}</span></em></p>
+{% endblock %}
+
+{% block right %}
+<div class="control topbar">
+    {% if user.id == person.auth_user.id %}
+    <a class="button" href="{% url 'list_add' %}">Create List</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block full %}
+<div class="block-listing row">
 
 {% for list in lists %}
-<p><a href="{% url 'list_view' person.id %}">{{ list.title }}</a></p>
+    <div class="block four columns">
+        <h6><a href="{% url 'list_view' list.id %}">{{ list.title }}</a></h6>
+        <p>{{ list.description }}</p>
+    </div>
 {% endfor %}
+</div>
 
 {% endblock %}

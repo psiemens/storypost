@@ -1,54 +1,74 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    $(function() {
+        $(".human-timestamp").each(function(idx, el) {
+            el = $(el)
+            el.attr("title", el.text())
+            el.html(moment(el).fromNow())
+        })
+    })
+</script>
+{% endblock %}
+
+
+
+{% block banner %}
+
+{% include 'messages.html' %}
 
 <div class="prompt-header">
-    <h6>{{ prompt.list.title }}</h6>
+    <h6><a href="{% url 'list_view' prompt.list.id %}">{{ prompt.list.title }}</a> &nbsp;&middot;&nbsp; {{ prompt.title }}</h6>
     <h3>{{ prompt.message }}</h3>
     {% if prompt.description %}
     <h6 class="prompt-description">{{ prompt.description }}</h6>
     {% endif %}
 </div>
-<div class="row">
-    <div class="eight columns">
-        <form action="./respond" method="POST">
-            {% csrf_token %}
-            <textarea name="content" class="message u-full-width"></textarea>
-            <input type="submit" class="button-primary" value="Send">
-        </form>
+{% endblock %}
 
-        <ul class="reply-tabs">
-           <li><a href="#">Recent</a></li>
-        </ul>
-        <ul class="replies">
-        {% for reply in prompt.replies reversed %}
-            <li>
-                <div class="content">
-                    <p>{{ reply.content }}</p>
-                </div>
-                <p class="meta">{{ reply.email }} - <span class="human-timestamp">{{ reply.timestamp }}</span></p>
-            </li>
-        {% endfor %}
-        </ul>
-    </div>
+{% block left %}
+<form action="./respond" method="POST">
+    {% csrf_token %}
+    <textarea name="message" class="message u-full-width"></textarea>
+    <input type="submit" class="button-primary" value="Send">
+</form>
 
-    <div class="four columns">
-        <div>
-            <a class="creator" href="{% url 'user_view' prompt.user.id %}">{{ prompt.user.name }}</a>
-            {% if next_prompt %}
-                <p class="more-prompts">Next: <a href="{% url 'prompt_view' 0 next_prompt.id %}"><em>{{ next_prompt.message }}</em></a></p>
-            {% endif %}
-            {% if prev_prompt %}
-                <p class="more-prompts">Previously: <a href="{% url 'prompt_view' 0 prev_prompt.id %}"><em>{{ prev_prompt.message }}</em></a></p>
-            {% endif %}
-            <p class="more-prompts">More prompts by this user:</p>
-            <ul>
-                {% for prompt in other_user_prompts %}
-                <li><a href="{% url 'prompt_view' 0 prompt.id %}">{{ prompt.title }}</a></li>
-                {% endfor %}
-            </ul>
+<ul class="reply-tabs">
+   <li>Recent replies</li>
+</ul>
+<ul class="replies">
+{% for reply in prompt.replies reversed %}
+    <li>
+        <div class="content">
+            <p>{{ reply.content }}</p>
         </div>
-    </div>
-</div>
+        <p class="meta">{{ reply.email }} - <span class="human-timestamp">{{ reply.timestamp }}</span></p>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}
 
+{% block right %}
+<div>
+    <a class="creator" href="{% url 'user_view' prompt.user.id %}">{{ prompt.user.name }}</a>
+    {% if next_prompt %}
+        <p class="more-prompts">Next: <a href="{% url 'prompt_view' next_prompt.list.id next_prompt.id %}"><em>{{ next_prompt.title }}</em></a></p>
+    {% endif %}
+    {% if prev_prompt %}
+        <p class="more-prompts">Previously: <a href="{% url 'prompt_view' prev_prompt.list.id prev_prompt.id %}"><em>{{ prev_prompt.title }}</em></a></p>
+    {% endif %}
+    <p class="more-prompts">More prompts by this user:</p>
+    <ul>
+        {% for prompt in other_user_prompts %}
+        <li><a href="{% url 'prompt_view' prompt.list.id prompt.id %}">{{ prompt.title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% if user.id == prompt.user.auth_user.id %}
+    <a href="{% url 'prompt_send' prompt.list.id prompt.id %}" class="button">Publish</a><br/>
+    <a href="{% url 'prompt_delete' prompt.list.id prompt.id %}" class="button">Delete</a>
+    {% endif %}
+</div>
 {% endblock %}

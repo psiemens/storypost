@@ -1,6 +1,7 @@
-{% extends "form.html" %}
+{% extends "base.html" %}
 
-{% block form %}
+{% block content %}
+<h1>Register</h1>
 <form method="post" action="">
 {% csrf_token %}
 {{ form }}

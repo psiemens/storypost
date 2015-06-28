@@ -1,13 +1,31 @@
 {% extends "base.html" %}
 
-{% block content %}
 
-<h1>{{ list.title }} <span class="half-height">by <a href="{% url 'user_view' user.id %}">{{ codex_user.name }}</a></span></h1>
+{% block left %}
+<div class="topbar">
+<h1>{{ list.title }}</h1>
+</div>
+<span>by <a href="{% url 'user_view' user.id %}">{{ codex_user.name }}</a></span>
+{% endblock %}
 
-<button>Follow</button>
+{% block right %}
+<div class="control topbar">
+    {% if user.id == list.user.auth_user.id %}
+    <a class="button" href="{% url 'list_edit' list_id %}">Edit List</a>
+    {% else %}
+    <a class="button" href="{% url 'list_subscribe' list_id %}">Subscribe</a>
+    {% endif %}
+</div>
+{% endblock %}
 
+{% block full %}
+<ul class="listing">
 {% for prompt in prompts %}
-    <a href="{% url 'prompt_view' list_id prompt.id %}">{{ prompt.message }}</a> - <a href="{% url 'prompt_send' list_id prompt.id %}">Send</a><br/>
+    <li>
+        <a href="{% url 'prompt_view' list_id prompt.id %}">{{ prompt.title }}</a>
+    </li>
 {% endfor %}
+</ul>
 
 {% endblock %}
+
