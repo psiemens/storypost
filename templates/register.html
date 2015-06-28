@@ -1,5 +1,10 @@
+{% extends "form.html" %}
+
+{% block form %}
 <form method="post" action="">
 {% csrf_token %}
 {{ form }}
-<input type="submit" />
+<br/>
+<input type="submit" class="button-primary" />
 </form>
+{% endblock %}

@@ -60,6 +60,18 @@ class List(Model):
 
         super(List, self).save(*args, **kwargs)
 
+    def add_member(self, user):
+        try:
+            mailchimp(self.user.mc_api_key).lists.get(self.mc_list_id).members.add(user.email)
+        except:
+            pass
+
+    def remove_member(self, user):
+        try:
+            mailchimp(self.user.mc_api_key).lists.get(self.mc_list_id).members.remove(user.email)
+        except:
+            pass
+
 class Reply(Model):
 
     prompt = ForeignKey('Prompt')
