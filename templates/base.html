@@ -14,7 +14,7 @@
                 <ul>
                     <li><a href="/" class="undecorated">Explore</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'user_view' 1 %}" class="undecorated">Profile</a></li>
+                    <li><a href="{% url 'user_view' user.id %}" class="undecorated">Profile</a></li>
                     <li><a href="{% url 'logout' %}" class="undecorated">Logout</a></li>
                     <li><a href="{% url 'prompt_add_quick' %}" class="button button-primary undecorated">Create Prompt</a></li>
                     {% else %}
@@ -40,6 +40,12 @@
         {% endblock %}
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static "codex.js" %}"></script>
+    <script>
+        $(codex.relativise_timestamps)
+    </script>
     {% block scripts %}
     {% endblock %}
 </body>

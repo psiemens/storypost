@@ -4,6 +4,7 @@
 <div class="topbar">
 <h1>{{ person.name }}</h1>
 </div>
+<p><em>Joined <span class="human-timestamp">{{ person.date_joined|date:"Y-n-j" }}</span></em></p>
 {% endblock %}
 
 {% block right %}
@@ -16,6 +17,7 @@
 
 {% block full %}
 <div class="block-listing row">
+
 {% for list in lists %}
     <div class="block four columns">
         <h6><a href="{% url 'list_view' list.id %}">{{ list.title }}</a></h6>

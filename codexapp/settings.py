@@ -16,11 +16,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-# MAILCHIMP API KEYS
-
-MC_API_USERNAME = 'psiemens'
-MC_API_KEY = '52e4e752068da129a885713f200740e8-us1'
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '_v%xhjs1bb#m2uzp8z#djioqx@ha@(^ljqybux*d3%4$04s63h'
 
@@ -79,7 +74,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Vancouver'
 
 USE_I18N = True
 

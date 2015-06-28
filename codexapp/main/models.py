@@ -11,6 +11,8 @@ class User(Model):
     name = CharField(max_length=255)
     mc_api_key = CharField(max_length=255)
 
+    date_joined = DateTimeField(auto_now_add=True)
+
     @property
     def email(self):
         return self.auth_user.email
