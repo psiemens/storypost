@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block full %}
 
-<p>the home page</p>
+<div class="centered">
+    <h6><em>Featured prompt</em></h6>
 
-<h5>Featured</h5>
+    <h3>{{ featured_prompt.message|linebreaks }}</h3>
 
+    <a href="{{ featured_prompt.get_absolute_url }}" class="button button-primary">Reply</a>
+</div>
+
+<div class="block-listing row">
 {% for reply in featured_replies %}
-    <p>{{ reply.content }}</p>
+    <div class="block four columns">
+        <p>{{ reply.content }}</p>
+        <p><em>In response to <a href="{{ reply.prompt.get_absolute_url }}">{{ reply.prompt.title }}</a></em></p>
+    </div>
 {% endfor %}
+</div>
 
 {% endblock %}

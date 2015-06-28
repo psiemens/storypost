@@ -8,6 +8,7 @@ from codexapp.main.forms import RegistrationForm, UserForm, ListForm, PromptForm
 
 def home(request):
     context = {
+        'featured_prompt': Prompt.objects.get(pk=6),
         'featured_replies': [
             Reply.objects.get(pk=5)
         ]
@@ -254,15 +255,13 @@ def prompt_send(request, list_id, id):
 def prompt_respond(request, list_id, id):
     
     form = ReplyForm(request.POST)
-    print dir(request.POST)
-    print request.POST
 
     if not form.is_valid():
         return HttpResponse("bad form! no potato")
 
     reply = form.save(commit=False)
 
-    me = User.objects.get(pk=User.objects.get(auth_user=request.user).id)
+    me = User.objects.get(auth_user=request.user)
 
     reply.user = me
     reply.email = me.email
