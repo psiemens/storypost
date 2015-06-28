@@ -1,19 +1,5 @@
 {% extends "base.html" %}
 
-{% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>
-    $(function() {
-        $(".human-timestamp").each(function(idx, el) {
-            el = $(el)
-            el.attr("title", el.text())
-            el.html(moment(el).fromNow())
-        })
-    })
-</script>
-{% endblock %}
-
 {% block banner %}
 <div class="prompt-header">
     <h6><a href="{% url 'list_view' prompt.list.id %}">{{ prompt.list.title }}</a> &nbsp;&middot;&nbsp; {{ prompt.title }}</h6>
