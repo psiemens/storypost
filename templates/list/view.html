@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>{{ name }}</h1>
+<h1>{{ list.title }} <span class="half-height">by <a href="{% url 'user_view' user.id %}">{{ user.name }}</a></span></h1>
 
 {% for prompt in prompts %}
     <a href="{% url 'prompt_view' list_id prompt.id %}">{{ prompt.message }}</a> - <a href="{% url 'prompt_send' list_id prompt.id %}">Send</a><br/>

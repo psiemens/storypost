@@ -112,9 +112,12 @@ def list_edit(request, id):
 
 def list_view(request, list_id):
 
+    lst = List.objects.get(pk=list_id)
+
     context = {
         'list_id': list_id,
-        'name': List.objects.get(pk=list_id),
+        'list': lst,
+        'user': User.objects.get(pk=lst.user_id),
         'prompts': Prompt.objects.filter(list_id=list_id)
     }
 
@@ -122,13 +125,14 @@ def list_view(request, list_id):
 
 def prompt_view(request, list_id, id):
 
+    p = Prompt.objects.get(pk=id)
+
     context = {
-        'prompt': {  # TODO remove this hardcoded prompt
-            'message': "What is the craziest dream you've ever had?"
-        }
+        'prompt': p,
+        'other_user_prompts': Prompt.objects.filter(user__id=p.user_id)
+                                            .order_by('-id')[:4]
     }
-    prompt = Prompt.objects.get(pk=id)
-    context['prompt'] = prompt
+
     return render(request, "prompt/prompt.html", context)
 
 def prompt_add(request, list_id):
@@ -142,11 +146,26 @@ def prompt_add(request, list_id):
             prompt.user = user
             prompt.list_id = list_id
             prompt.save()
-
-            return redirect(prompt_view, list_id, prompt.id)
-
+            return redirect(prompt_edit, list_id, prompt.id)
     else:
         form = PromptForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, "prompt/edit.html", context)
+
+def prompt_edit(request, list_id, id):
+
+    prompt = Prompt.objects.get(pk=id)
+
+    if request.method == 'POST':
+        form = PromptForm(request.POST, instance=prompt)
+        if form.is_valid():
+            form.save()
+    else:
+        form = PromptForm(instance=prompt)
 
     context = {
         'form': form,
