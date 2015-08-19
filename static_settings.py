@@ -1,5 +1,11 @@
-import os
 
-# local development
+PROD = False
 
-BASE_STATIC_URL = 'http://localhost:8888/'
+if PROD:
+    # production
+    BASE_STATIC_URL = '/'
+
+else:
+    # local development
+    BASE_STATIC_URL = 'http://localhost:8888/'
+
