@@ -64,19 +64,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "codexapp.context_processors.user"
 )
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'codex',
-        'USER': 'codex',
-        'PASSWORD': 'pKEXexaDRKEd3skh',
-        'HOST': '192.241.201.61',
-        'PORT': '3306'
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -107,3 +94,7 @@ BASE_STATIC_URL = static_settings.BASE_STATIC_URL
 
 STATIC_URL = BASE_STATIC_URL + 'static/' # What do static URLs start with?
 STATIC_ROOT = os.path.join(BASE_DIR, 'static') # Where do static files live
+
+
+# DB config etc
+from credentials import *
